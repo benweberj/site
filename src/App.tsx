@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, /* useEffect */ } from 'react';
+import { ThemeProvider } from 'styled-components';
+import { theme, GlobalStyles } from './styles';
 
-function App() {
+import { ThemeToggler, Text, Button } from './components/index'
+
+const App: React.FC = () => {
+  const [darkMode, setDarkMode] = useState<boolean>(true)
+
+  const toggleMode = () => setDarkMode(!darkMode)
+
+  const t = theme[darkMode ? 'dark' : 'light']
+  console.log('theme', t)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ThemeProvider theme={t}>
+      <GlobalStyles theme={t} />
+      <ThemeToggler toggleMode={toggleMode} />
+      <Text>Hey man press this <Button p={5} onClick={toggleMode}>button</Button></Text>
+   </ThemeProvider>
+  )
 }
 
-export default App;
+export default App
