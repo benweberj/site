@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import styled from 'styled-components'
+
+import { Context } from '../App'
+import { Tooltip } from './index'
 
 interface Props {
   toggleMode: () => void;
@@ -30,13 +33,14 @@ const Toggler = styled.button<Props>(props => ({
 const ThemeToggler: React.FC<Props> = props => {
   const [used, setUsed] = useState(false)
   const { toggleMode } = props
-
+  const { theme } = useContext(Context)
+ 
   const handleClick = _ => {
     toggleMode()
     setUsed(true)
   }
 
-  return <Toggler onClick={handleClick} used={used} {...props} />
+  return <Tooltip bottom msg={`Switch to ${theme.mode === 'dark' ? 'light' : 'dark'} mode`}><Toggler onClick={handleClick} used={used} {...props} /></Tooltip>
 }
 
 export default ThemeToggler
