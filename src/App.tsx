@@ -38,7 +38,7 @@ const App: React.FC = () => {
     <Context.Provider value={{ theme: t }}> { /* for manually importing */}
       <ThemeProvider theme={t}> { /* for easy access in styled-components */}
         <GlobalStyles theme={t} />
-        <ThemeToggler toggleMode={toggleMode} />
+        <ThemeToggler toggle={toggleMode} />
 
         {/* theme key */}
         {/* <Div style={{ position: 'absolute', top: 10, left: 10 }}>

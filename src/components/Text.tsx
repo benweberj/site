@@ -32,7 +32,6 @@ const TextX = styled.p<Props>(props => ({
   display: props.inline ? 'inline !important' : undefined,
   textAlign: props.center ? 'center' : undefined,
   fontFamily: props.code ? `${props.theme.codeFont}, monospace` : props.inline ? 'inherit' : props.theme.font,
-  opacity: props.o || 1,
   
   '& a': {
     fontSize: 'inherit',

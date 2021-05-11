@@ -72,6 +72,7 @@ export interface IProps {
   italic?: boolean,
 
   active?: any,
+  locked?: any,
 
   // Rest (Alphabetical)
   abs?: boolean, // absolute positioning
@@ -150,13 +151,13 @@ export const globalProps = props => {
     filter: props.invert && 'invert(1)',
     backgroundSize: 'cover',
     overflow: props.contain && 'hidden',
-    opacity: props.disabled ? .3 : (props.o || 1),
+    opacity: props.o || (props.disabled ? .3 : 1),
     textTransform: props.upper && 'uppercase',
     lineHeight: props.lh || undefined,
 
     whiteSpace: props.nowrap && 'nowrap',
-    pointerEvents: props.disabled && 'none',
-    userSelect: props.disabled && 'none',
+    pointerEvents: (props.disabled || props.locked) && 'none',
+    userSelect: (props.disabled || props.locked) && 'none',
     fontStyle: props.italic ? 'italic' : undefined,
 
     top: props.t ? props.t : undefined,

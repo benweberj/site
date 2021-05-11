@@ -75,7 +75,16 @@ const Button: React.FC<Props> = props => {
     {/* hidden reference text */}
     <Text nowrap ref={textRef} disabled o={'0'} style={{ position: 'absolute' }}>{props.children}</Text>
 
-    <Div active={{ transform: 'scale(.95)' }} time={.1} rel w={ww+stroke/2} h={hh+stroke/2} minW={ww} minH={hh} {...props} onClick={() => setOn(!on)} onMouseOver={() => setHov(true)} onMouseOut={() => setHov(false)}>
+    <Div rel
+      w={ww+stroke/2} h={hh+stroke/2}
+      minW={ww} minH={hh}
+      ty={on ? 0 : 10}
+      o={on ? 1 : '.10'}
+      active={{ transform: 'scale(.95)' }}
+      onMouseOver={() => setHov(true)}
+      onMouseOut={() => setHov(false)}
+      {...props}
+    >
       <svg width={ww} height={hh} style={{ transition: `all ${time}s ease` }} viewBox={`0 0 ${ww+stroke/2} ${hh+stroke/2}`}>
         <Rect x={stroke/2} y={stroke/2} stroke={stroke} ref={svgRef} width={ww} height={hh} rx={hh/2} ry={hh/2} {...pathStyles} action={action} />
       </svg>
