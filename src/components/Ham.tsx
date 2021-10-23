@@ -8,22 +8,22 @@ import { Context } from '../App'
 interface Props extends IProps {
   open: boolean,
   toggle: () => void,
+  style?: any,
+  accentColor?: string
 }
 
 const Ham: React.FC<Props> = props => {
   const { theme } = useContext(Context)
-  const { open, toggle } = props
+  const { open, toggle, style, accentColor=theme.complement } = props
 
-  const scale = .7
   const dur = .6
-  const color = theme.complement
 
   useEffect(() => {
     console.log(theme)
   }, [])
   
   return (
-    <Icon open={open} onClick={toggle} scale={scale} dur={dur} color={color} id="hamburger" className={`hamburglar ${open ? 'is-open' : 'is-closed'}`}>
+    <Icon style={style} open={open} onClick={toggle} dur={dur} color={accentColor} id="hamburger" className={`hamburglar ${open ? 'is-open' : 'is-closed'}`}>
       <div className="burger-icon">
         <div className="burger-container">
           <span className="burger-bun-top"></span>
@@ -64,10 +64,11 @@ const Icon = styled.div<any>`
   border-radius: 999px;
   &:hover {
     background: ${props => props.open && `${props.theme.red}99`};
+    opacity: ${props => props.open ? 1 : .5};
+    
   }
 
   transition: all .5s ease;
-  transform: scale(${props => props.scale});
   position: relative;
   display: block;
   width: 68px;

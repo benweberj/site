@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { globalProps, IProps } from '../utils'
 
@@ -6,12 +6,18 @@ interface Props extends IProps {
   rounded?: boolean, // theme-dependent border-radius
   // ref?: any, // ?
   full?: boolean, // width = height = 100%
+  // gallery?: boolean, //
+  i?: number, // animatable index
+  on?: boolean,
 }
 
-const DivX = styled.div<Props>(props => ({
+const DivX = styled.div<any>(props => ({
   ...globalProps(props),
-  borderRadius: (props.rounded || props.glass) ? props.theme.corners : props.rad ? props.rad : props.circle ? 99999 : 0,
-
+  borderRadius: props.rad ? props.rad : (props.rounded || props.glass) ? props.theme.corners : props.circle ? 99999 : 0,
+  opacity: props.on ? 1 : 0,
+  // ...(props.gallery && {
+  //   display: 'grid', gridTemplateColumns: '' }
+  // )
 
   // '&:hover': {
   //   background: props.glass && '#20283157',
@@ -19,8 +25,15 @@ const DivX = styled.div<Props>(props => ({
 }))
 
 const Div: React.FC<Props> = React.forwardRef((props, ref) => {
+  const [on, setOn] = useState(props.on)
+  const { i=0 } = props
+
+  useEffect(() => {
+    setTimeout(() => setOn(true), (i*250))
+  }, [])
+
   return (
-    <DivX {...props} ref={ref}>{props.children}</DivX>
+    <DivX {...props} on={on} ref={ref}>{props.children}</DivX>
   )
 })
 

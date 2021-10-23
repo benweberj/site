@@ -6,7 +6,7 @@ import { globalProps, IProps } from '../utils'
 interface Props extends IProps {
   type?: string, // h1, h2, h3
   color?: string,
-  inverse?: boolean,
+  inverse?: boolean, // swaps theme base and complement colors
   size?: number | string,
   scale?: number, // transform: scale(x)
   lh?: string | number, // line height

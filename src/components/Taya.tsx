@@ -1,22 +1,25 @@
 import React, { useState } from 'react'
 
-const Fragment: React.FC<{ d: string, fill: string }> = props => {
-  const [on, setOn] = useState(false)
+const Fragment: React.FC<{ d: string, fill: string, on: boolean }> = props => {
+  // const [on, setOn] = useState(false)
+  const { on } = props
 
   return <>
-    <path onMouseOver={() => setOn(true)} onMouseOut={() => setOn(false)} {...props} style={{
+    <path {...props} style={{
       // opacity: on ? 1 : .1,
-      transform: on ? `translate(${Math.random()*100}px, ${Math.random()*100}px)` : undefined,
+      transform: on ? `translate(${100 -Math.random()*200}px, ${100-Math.random()*200}px)` : undefined,
       transition: 'all .5s ease'
     }} />
   </>
 }
 
 const Taya: React.FC = () => {
-  const fragProps = {}
+  const [on, setOn] = useState(false)
+  const fragProps = { on }
 
-  return (
-    <svg overflow='visible' width="854" height="984" viewBox="0 0 854 984" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+  return (<><button onClick={() => setOn(!on)}>fuck</button>
+    <svg overflow='visible' width="854" height="884" viewBox="0 0 854 984" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Fragment {...fragProps} d="M213.5 873.5L241 849.5L257 875.5L232 915.5L213.5 873.5Z" fill="#FCC7A5"/>
       <Fragment {...fragProps} d="M271 924L232 915.5L257 875.5L277 908L304 965L271 924Z" fill="#DAAA8B"/>
       <Fragment {...fragProps} d="M194.5 926L213.5 873.5L232 915.5L194.5 926Z" fill="#F6BE9A"/>
@@ -308,6 +311,7 @@ const Taya: React.FC = () => {
         </filter>
       </defs>
     </svg>
+    </>
   )
 }
 

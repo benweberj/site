@@ -8,6 +8,7 @@ import { Text, Div, Icon } from './index'
 interface Props extends IProps {
   action?: string, // intent (just don't like that word bc Luke/Omic)
   block?: boolean; // display: block
+  color?: string,
   selected?: boolean;
   noborder?: boolean; // no border + elevates on hover
   inverse?: boolean; // swap fg and bg
@@ -21,9 +22,12 @@ interface Props extends IProps {
 }
 
 const Rect = styled.rect<any>(props => ({
-  stroke: props.theme.mode === 'dark' ? props.theme.accent : props.theme.complement,
-  strokeWidth: props.hov ? props.stroke : 0,
-  fill: (props.hov || props.action) ? `${props.theme.complement}00` : `${props.theme.complement}15`,
+  stroke: props.color || (props.theme.mode === 'dark' ? props.theme.accent : props.theme.complement),
+  strokeWidth: props.hov || props.selected ? props.stroke : 0,
+  fill: props.selected ? `${props.color || props.theme.accent}33` : (props.hov || props.action) ? `${props.theme.complement}00` : `${props.theme.complement}15`,
+  transition: `all ${props.time}s ease`,
+  strokeDasharray: props.len,
+  strokeDashoffset: (props.hov || props.selected) ? 0 : props.len,
 }))
 
 const Button: React.FC<Props> = props => {
@@ -35,7 +39,7 @@ const Button: React.FC<Props> = props => {
   const svgRef = useRef<any>()
   const {  } = useContext(Context)
 
-  const { i=0, children, action } = props
+  const { i=0, children, action, color } = props
 
   const px = 30
   const py = 10
@@ -46,11 +50,15 @@ const Button: React.FC<Props> = props => {
   const hh = h + (py*2) + stroke
 
   const pathStyles = {
-    style: { transition: `all ${time}s ease` },
-    strokeDasharray: len,
-    strokeDashoffset: hov ? 0 : len,
-    on: true,
+    // style: { transition: `all ${time}s ease` },
+    // strokeDasharray: len,
+    // strokeDashoffset: (hov || selected) ? 0 : len,
+    ...props,
+    time,
+    len,
+    on,
     hov,
+    color
   }
   
   useEffect(() => {
@@ -67,9 +75,14 @@ const Button: React.FC<Props> = props => {
   })
 
   const content = action ? <>
-    <Div h={hh} full center ty={hov ? -hh-(stroke/2) : 0}><Icon name={action} /></Div>
-    <Div h={hh} full center ty={hov ? -hh-(stroke/2) : 0}><Text>{children}</Text></Div>
-  </> : <Div h={hh} full center><Text>{children}</Text></Div>
+    <Div locked h={hh} full center ty={hov ? -hh-(stroke/2) : 0}>
+      <Icon name={action} on={!hov && on} />
+    </Div>
+    <Div h={hh} full center ty={hov ? -hh-(stroke/2) : 0}>
+      <Text>{children}</Text>
+    </Div>
+  </>
+  : <Div h={hh} full center><Text>{children}</Text></Div>
 
   return <>
     {/* hidden reference text */}
@@ -79,16 +92,18 @@ const Button: React.FC<Props> = props => {
       w={ww+stroke/2} h={hh+stroke/2}
       minW={ww} minH={hh}
       ty={on ? 0 : 10}
-      o={on ? 1 : '.10'}
+      on={on}
+      time={.1}
       active={{ transform: 'scale(.95)' }}
-      onMouseOver={() => setHov(true)}
-      onMouseOut={() => setHov(false)}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
       {...props}
     >
-      <svg width={ww} height={hh} style={{ transition: `all ${time}s ease` }} viewBox={`0 0 ${ww+stroke/2} ${hh+stroke/2}`}>
-        <Rect x={stroke/2} y={stroke/2} stroke={stroke} ref={svgRef} width={ww} height={hh} rx={hh/2} ry={hh/2} {...pathStyles} action={action} />
+      {/* style={{ transition: `all ${time}s ease` }} */}
+      <svg width={ww} height={hh} viewBox={`0 0 ${ww+stroke/2} ${hh+stroke/2}`}>
+        <Rect x={stroke/2} y={stroke/2} stroke={stroke} ref={svgRef} width={ww} height={hh} rx={hh/2} ry={hh/2} {...pathStyles} />
       </svg>
-      <Div full circle contain h={hh} ty={-hh-2} style={{ userSelect: 'none' }}>
+      <Div full circle contain h={hh} ty={-hh-3} style={{ userSelect: 'none' }}>
         {content}
       </Div>
     </Div>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 // import styled from 'styled-components'
 
-import { Div, Path, Text, Parallax } from './index'
-import { IProps } from '../utils'
+import { Div, Path, Text, Parallax } from './components/index'
+import { IProps } from './utils'
 
 interface Props extends IProps {
   name?: string,
@@ -113,7 +113,7 @@ const SocialMedia: React.FC<Props> = () => {
               >
                 {icons[name]}
             </Div>
-            <Text size={13} light upper
+            <Text size={13} upper
               o={hov ? 1 : '0'} disabled time={1}
               style={{ transform: `translateY(${hov ? `calc(-100% - ${scale*50}px)` : '0px'}) translateZ(${hov ? 50 : 0}px)` }}
             >

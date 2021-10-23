@@ -3,44 +3,14 @@ import styled from 'styled-components'
 
 import { Context } from '../App'
 import { IProps} from '../utils'
-import { Div, Text } from './index'
+import { Div, Text, BoolToggle } from './index'
 
 interface Props extends IProps {
   toggle: () => void,
   used?: boolean,
 }
 
-const Dot = styled.div<any>(props => {
-  const dx = 2*props.dim - props.dim/2
-  const dur = .5
-  return ({
-    '@keyframes night': {
-      from: {
-        transform: `translateX(0px)`
-      },
-      to: {
-        transform: `translateX(${dx}px)`
-      },
-    },
-  
-    '@keyframes day': {
-      from: {
-        transform: `translateX(${dx}px)`
-      },
-      to: {
-        transform: `translateX(0px)`
-      },
-    },
-  
-    // transform: `translateX(${props.theme.mode === 'dark' ? (2*props.dim - props.dim/2) : 0}px)`,
-    background: props.theme.base,
-    borderRadius: 999,
-    width: props.dim,
-    height: props.dim,
-    animation: `${props.theme.mode === 'dark' ? 'night' : 'day'} ${dur}s ease-out`,
-    animationFillMode: 'forwards'
-  })
-})
+
 
 
 // const Toggler = styled.button<Props>(props => ({
@@ -74,17 +44,14 @@ const ThemeToggler: React.FC<Props> = props => {
   //   setUsed(true)
   // }
 
-  const dim = 15
 
   return (
     <Div center m={10} {...props} onMouseOver={() => setHov(true)} onMouseOut={() => setHov(false)}>
-      <Text o={hov ? (theme.mode === 'light' ? 1 :.3) : '0'} locked={theme.mode === 'light'} size={14}>LIGHT</Text>
+      <Text o={hov ? (theme.mode === 'light' ? 1 :.3) : '0'} locked size={14}>LIGHT</Text>
 
-      <Div mx={15} bg={theme.complement} circle p={dim/4} w={dim*3} onClick={toggle}>
-        <Dot dim={dim} />
-      </Div>
+      <BoolToggle mx={15} toggle={toggle} val={theme.mode == 'dark'} />
 
-      <Text o={hov ? (theme.mode === 'dark' ? 1 :.3) : '0'} locked={theme.mode === 'dark'} size={14}>DARK</Text>
+      <Text o={hov ? (theme.mode === 'dark' ? 1 :.3) : '0'} locked size={14}>DARK</Text>
     </Div>
   )
 

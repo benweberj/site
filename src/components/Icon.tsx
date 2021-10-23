@@ -5,7 +5,8 @@ import { Path } from './index'
 import { Context } from '../App'
 
 interface Props extends IProps {
-  name?: string | null,
+  name?: string,
+  on?: boolean,
 }
 
 // back
@@ -17,18 +18,31 @@ interface Props extends IProps {
 
 // I think you can just store the path's d's in an array?
 
+// icons must have their d value fit to a 100 x 100 viewBox
 
 const icons = {
   back: {
-    d: 'M78 4L14 48L78 92',
-    viewBox: '0 0 100 96'
+    d: 'M82 4L15 50L82 96',
+    viewBox: '0 0 100 100'
+  },
+  forward: {
+    d: 'M18 96L85 50L18 3.99999',
+    viewBox: '0 0 100 100'
+  },
+  up: {
+    d: 'M96 70L50 28L4 70',
+    viewBox: '0 0 100 100'
+  },
+  down: {
+    d: 'M4.00001 30L50 72L96 30',
+    viewBox: '0 0 100 100'
   },
 
 }
 
 const Icon: React.FC<Props> = props => {
-  const { w=18, h=18, name } = props
-  const { theme } = useContext(Context)
+  const { w=18, h=18, name, on=true } = props
+  const { theme} = useContext(Context)
 
   if (!name || !Object.keys(icons).includes(name)) {
     return <span style={{ color: 'red', fontSize: 10 }}>missing/unknown $name</span>
@@ -38,7 +52,7 @@ const Icon: React.FC<Props> = props => {
   const icon = icons[name]
 
   const iconProps = {
-    on: true,
+    on,
     weight: 10,
   }
 

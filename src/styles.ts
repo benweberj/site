@@ -1,9 +1,45 @@
 import { createGlobalStyle } from 'styled-components'
 
 // for some reason you can't css import fonts so you'll just need to keep here and index.html in sync
-const fam = 'DM Sans'
+const fam = 'Assistant'
 const codeFam = 'Ubuntu Mono'
 const rem = 18
+
+const darkColor = '#2B2F32'
+const lightColor = '#EDE6D1' // E0D6B7 is a little darker
+
+const baseStyles = {
+  primary: '#60b389',
+  accent: '#97cfb3',
+
+  darkColor: darkColor,
+  lightColor: lightColor,
+
+  red: '#f5877f', // DB5461
+  purple: '#7678ED',
+  blue: '#91C4F2',
+  green: '#83E8BA',
+  wine: '#912F40',
+  brown: '#A49E8D',
+  orange: '#ED9B40',
+  
+  green2: '#7FB685',
+  green3: '#61C9A8',
+  green4: '#97cfb3',
+
+
+  light: 200,
+  regular: 400,
+  bold: 700,
+  corners: 8,
+  cornersSm: 4,
+  padding: 30,
+  paddingSm: 15,
+  rem,
+
+  font: fam,
+  codeFont: codeFam,
+}
 
 // just learned ts. Not sure this needs to be updated, but it felt like a hack to 
 // add the '<any>' -->
@@ -68,33 +104,20 @@ export const GlobalStyles = createGlobalStyle<any>`
     0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, .05) }
     100% { box-shadow: 0 0 0 60px rgba(0, 0, 0, 0) }
   }
+
+  canvas {
+    display: block;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    border-radius: ${baseStyles.cornersSm}px;
+    padding: 2px 5px;
+  }
 `
 
-const darkColor = '#2B2F32'
-const lightColor = '#E0D6B7'
 
-const baseStyles = {
-  primary: '#60b389',
-  accent: '#97cfb3',
-
-  darkColor: darkColor,
-  lightColor: lightColor,
-
-  red: '#f5877f',
-  green: '#97cfb3',
-
-  light: 100,
-  regular: 400,
-  bold: 700,
-  corners: 8,
-  cornersSm: 4,
-  padding: 30,
-  paddingSm: 15,
-  rem,
-
-  font: fam,
-  codeFont: codeFam,
-}
 
 export const theme = {
   dark: {

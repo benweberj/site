@@ -4,6 +4,8 @@
  * return the corresponding CSS via globalProps() below
  */
 
+export const ease = 'cubic-bezier(0.745, 0.225, 0.215, 1.000)'
+
 // build up the transform string from the props
 function transforminator(props) {
   let { scale, tx=0, ty=0, sx=1, sy=1, elevation=0 } = props
@@ -13,12 +15,10 @@ function transforminator(props) {
     sy = scale
   }
   
-  
   if (typeof tx == 'number') tx = `${tx}px`
   if (typeof ty == 'number') ty = `${ty}px`
 
   return `translate(${tx}, ${ty}) translateZ(${elevation}px) scaleX(${sx}) scaleY(${sy})`
-
 }
 
 export interface IProps {
@@ -72,6 +72,7 @@ export interface IProps {
   italic?: boolean,
 
   active?: any,
+  hover?: any,
   locked?: any,
 
   // Rest (Alphabetical)
@@ -165,11 +166,12 @@ export const globalProps = props => {
     left: props.l ? props.l : undefined,
     right: props.r ? props.r : undefined, 
     
-    transition: `all ${props.time ? props.time : .25}s ease`,
+    transition: `all ${props.time ? props.time : .5}s ${ease}`,
 
     position: props.abs ? 'absolute' as 'absolute' : props.rel ? 'relative' as 'relative' : undefined,
 
     transform: transforminator(props),
+
     
     border: props.debug && '1px solid red',
     '& > *': { border: props.debug && '1px solid green' },
@@ -178,6 +180,9 @@ export const globalProps = props => {
 
     '&:active': {
       ...props.active
+    },
+    '&:hover': {
+      ...props.hover
     }
   })
 }

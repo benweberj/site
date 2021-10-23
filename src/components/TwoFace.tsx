@@ -1,8 +1,41 @@
-// JESUS SHUT THE FUCK UP TYPESCRIPT
+import React, { useState } from 'react'
+import styled from 'styled-components'
 
-import React from 'react'
-const TwoFace: React.FC<any> = () => <h1>ajhksdfhjakdsfjkd</h1>
-// import styled from 'styled-components'
+import { IProps, ease } from '../utils'
+import { Parallax } from './index'
+
+interface Props extends IProps {
+
+}
+
+const TwoFace: React.FC<Props> = () => {
+  const [real, setReal] = useState(false) // real/vector boolean
+  
+  const imgStyles: any = cur => ({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    pointerEvents: !cur && 'none',
+    // opacity: cur ? 1 : 0,
+    transition: `all 1s ${ease}`,
+    clipPath: `circle(${cur ? '100%' : '0%'} at 50% 50%)`,
+  })
+
+  const dim = 300
+
+  return (
+    <Parallax>
+      <div style={{ display: 'inline-block', position: 'relative', width: dim, height: dim, userSelect: 'none' }}>
+        <img onClick={() => setReal(true)} style={imgStyles(real === false)} src={require('../img/vec-t.png').default} />
+        <img onClick={() => setReal(false)} style={imgStyles(real === true)} src={require('../img/real.png').default} />
+      </div>
+    </Parallax>
+  )
+}
+
+export default TwoFace
 
 // import Text from './Text'
 
@@ -103,4 +136,4 @@ const TwoFace: React.FC<any> = () => <h1>ajhksdfhjakdsfjkd</h1>
 //   )
 // }
 
-export default TwoFace
+// export default TwoFace

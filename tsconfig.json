@@ -19,7 +19,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "noUnusedLocals": true,
+    "noUnusedLocals": false, // i guess change this to true when deploying?
     "noUnusedParameters": true,
     "noImplicitAny": false,
   },
