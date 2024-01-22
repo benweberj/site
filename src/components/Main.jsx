@@ -1,27 +1,27 @@
 import { motion } from 'framer-motion'
 
 export default function Motion(props) {
-    const { fromRight, fromLeft, fromTop, fromBottom } = props
+    const { fromright, fromleft, fromtop, frombottom } = props
 
     let initial =  { opacity: 0 }
     let animate =  { opacity: 1, transition: {  } }
 
-    if (fromLeft) {
+    if (fromleft) {
         initial = { transform: 'translateX(-100vw)' }
         animate = { transform: 'translateX(0px)', transition: { type: 'spring', duration: 0.75 } }
     }
     
-    if (fromRight) {
+    if (fromright) {
         initial = { transform: 'translateX(100vw)' }
         animate = { transform: 'translateX(0px)', transition: { type: 'spring', duration: 0.75 } }
     }
 
-    if (fromTop) {
+    if (fromtop) {
         initial = { transform: 'translateY(-100vh)' }
         animate = { transform: 'translateY(0px)' }
     }
 
-    if (fromBottom) {
+    if (frombottom) {
         initial = { transform: 'translateY(100vw)' }
         animate = { transform: 'translateY(0px)', transition: { type: 'spring', duration: 0.75 } }
     }

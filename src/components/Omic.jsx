@@ -107,7 +107,7 @@ const Sites = () => {
             <div className=''>
                 {sites.map((site, i) => (
                     <a href={site.link} target='_blank'>
-                        <div className={`card mts ${site.expired && 'expired'}`} key={site.id} style={{ background: site.gradient }}>
+                        <div className={`card hoverable mts ${site.expired && 'expired'}`} key={site.id} style={{ background: site.gradient }}>
                             <h4 className='mbxs'>{site.name}</h4>
                             <p style={{ lineHeight: 1.1 }}>{site.desc}</p>
                         </div>
@@ -127,11 +127,11 @@ const SitesContainer = styled.div`
         }
 
         &.expired {
-            border: 1px solid #f3626255;
-            color: #f36262;
+            // border: 1px solid #f3626255;
+            // color: #f36262;
 
             &:hover {
-                border: 1px solid #f36262;
+                // border: 1px solid #f36262;
             }
 
             &:after {

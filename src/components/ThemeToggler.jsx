@@ -26,8 +26,8 @@ const _ThemeToggler = styled.div`
 
     > div {
         position: absolute;
-        width: ${props => props.dotWidth}px;
-        height: ${props => props.dotWidth}px;
+        width: ${props => props.dotwidth}px;
+        height: ${props => props.dotwidth}px;
         border-radius: 99px;
         transition: all 0.25s ease;
 
@@ -53,7 +53,7 @@ export default function ThemeToggler(props) {
     let w = 4 // size of dots
 
     return (
-        <_ThemeToggler dim={ww} dotWidth={w} dist={w * 0.75} theme={theme} onClick={toggle}>
+        <_ThemeToggler dim={ww} dotwidth={w} dist={w * 0.75} theme={theme} onClick={toggle}>
             <div style={{
                 background: theme.complement,
                 opacity: 0.7,

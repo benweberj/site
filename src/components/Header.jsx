@@ -114,8 +114,8 @@ export default function Header(props) {
             <div className={`breadcrumbs ${persistPathTimer && 'breathe'}`}>
                 <div className='wrapper'>
                 {(!onHome || persistPathTimer) && <li><Link to='/'>home</Link></li> }
-                {paths.map(path => (
-                    <li>/<Link to={getWholePath(path)}>{path}</Link></li>
+                {paths.map((path, i) => (
+                    <li key={`path-${i}`}>/<Link to={getWholePath(path)}>{path}</Link></li>
                     ))}
                 </div>
             </div>

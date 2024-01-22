@@ -10,6 +10,7 @@ import AnimateHeight from './AnimateHeight'
 import Omic from './Omic'
 import ReferenceCard from './ReferenceCard'
 import Clicker from './Clicker'
+import SVG from './SVG'
 
 export {
     ThemeToggler,
@@ -23,5 +24,6 @@ export {
     AnimateHeight,
     Omic,
     ReferenceCard,
-    Clicker
+    Clicker,
+    SVG
 }

@@ -1,8 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
+import ReactDOM from 'react-dom'
 import styled from 'styled-components'
+import { Toaster, toast } from 'react-hot-toast'
+
+import { Modal, SVG } from './index' 
+import { copyToClipboard } from '../extras/tools'
+import { useTheme } from '../extras/ThemeContext'
 
 const RefCard = styled.div`
-    position: relative;
+    // position: relative;
     cursor: pointer;
 
     .tooltip {
@@ -33,66 +39,9 @@ const RefCard = styled.div`
 
 export default function ReferenceCard(props) {
     const [active, setActive] = useState(false)
-    const tipRef = useRef(null)
     const { reference } = props
-
-    function repositionTooltip() {
-        const dim = tipRef.current.getBoundingClientRect()
-        let w = window.innerWidth
-        let h = window.innerHeight
-        let gap = 10
-        let overlapX = (dim.x + dim.width) - w
-
-        if (overlapX > 0 && active) { // overflow right
-            console.log('overflow right by ', overlapX, 'px')
-            tipRef.current.style.left = `calc(105% - ${overlapX + gap}px)`
-        } else {
-            tipRef.current.style.left = `105%`
-        }
-    }
-
-    function checkForOutsideClick(e) {
-        e.stopPropagation()
-        let x = e.clientX
-        let y = e.clientY
-        let dim = tipRef.current.getBoundingClientRect()
-        console.log(`checking if click (${x}, ${y}) is inside: `, dim)
-
-        // if (active) {
-            if (x > dim.right || x < dim.left || y < dim.top || y > dim.bottom) {
-                console.log('outside')
-                setActive(false)
-            } else {
-                console.log('inside')
-            }
-            // if (!tipRef.current.contains(e.target)) {
-            //     console.log('outside -- closing tooltip')
-            //     setActive(false)
-            // } else {
-            //     console.log('clicked on tooltip')
-            // }
-        // }
-    }
-
-
-    useEffect(() => {
-        window.addEventListener('resize', repositionTooltip)
-        document.addEventListener('click', checkForOutsideClick)
-        
-        return () => {
-            window.removeEventListener('resize', repositionTooltip)
-            window.removeEventListener('click', checkForOutsideClick)
-        }
-        
-    }, [])
-
-
-    useEffect(() => {
-        repositionTooltip()
-    })
-
-
-
+    const [theme, _] = useTheme()
+    const [isBrowser, setIsBrowser] = useState(false)
 
     const contact = {}
     if (reference.linkedIn) contact.linkedIn = reference.linkedIn
@@ -102,18 +51,70 @@ export default function ReferenceCard(props) {
 
     const hasContact = Object.keys(contact).length > 0
 
+
+    function handleContactClick(type) {
+        console.log(reference, type)
+        if (type == 'linkedin') window.open(reference.linkedin, '_blank')
+        if (type == 'github') window.open(reference.github, '_blank')
+
+        const toastProps = { style: {
+            background: theme.complement,
+            color: theme.base,
+            fontSize: '0.8rem',
+            padding: '5px 15px',
+        }}
+
+        if (type == 'number') {
+            copyToClipboard(reference.number)
+            toast('Number copied', toastProps)
+        }
+
+        if (type == 'email') {
+            copyToClipboard(reference.email)
+            toast('Email copied', toastProps)
+        }
+    }
+
+    useEffect(() => {
+        setIsBrowser(true)
+    }, [])
+
     return (
-        <RefCard className='card iflex' onClick={() => !active && setActive(true)}>
+        <>
+        {isBrowser && ReactDOM.createPortal(
+            <Toaster style={{ zIndex: 9999 }} />,
+            document.getElementById('aux-root')        
+        )}
+
+        {/* <Toaster style={{ zIndex: 9999 }} /> */}
+        
+        <RefCard className='card iflex hoverable' onClick={() => setActive(!active)}>
             <h4 className='thin'>{reference.name}</h4>
             <h5 className='thin mtxs'>{reference.former && <span className='faded'>Former </span>}{reference.title}</h5>
-            {/* <p>{JSON.stringify(reference)}</p> */}
 
-            <div ref={tipRef} className={`tooltip card ${active && 'active'}`}>
+
+            {/* <div className={`tooltip card ${active && 'active'}`}>
                 {Object.keys(contact).map(media => (
                     <p className='mbs'>{media}: {contact[media]}</p>
                 ))}         
-            </div>
+            </div> */}
         </RefCard>
+
+        <Modal ready={active} onClose={() => setActive(false)}>
+            {/* <p>{JSON.stringify(reference)}</p> */}
+            <div style={{ padding: '3vmin' }}>
+                <h2>{reference.name}</h2>
+                <h3 style={{ marginBottom: '2rem' }} className='thin mtxs'>{reference.former && <span className='faded'>Former </span>}{reference.title}</h3>
+
+                {Object.keys(contact).map((social, i) => (
+                    <div className='split mbs'>
+                        <h4>{social}</h4>
+                        <SVG name={social} onClick={() => handleContactClick(social)}/>
+                    </div>
+                ))}
+            </div>
+        </Modal>
+        </>
     )
 
 }
