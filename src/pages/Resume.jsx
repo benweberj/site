@@ -17,7 +17,7 @@ export default function Resume() {
     }, [])
 
     return (
-        <Main fromBottom>
+        <Main frombottom>
             <h1 className='mbm'>Resume</h1>
             {/* <ResumeContainer id='resume-container' src='/resume.pdf' /> */}
             <object data="/resume.pdf" type="application/pdf" width="100%" height="100%" className='rounded'>

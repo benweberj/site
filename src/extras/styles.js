@@ -181,10 +181,17 @@ export const GlobalStyles = createGlobalStyle`
         &.lg {
             padding: ${props => props.theme.spacing.lg}rem;
         }
+
+        &.hoverable {
+            transition: background 0.25s ease;
+            &:hover {
+                background: ${props => props.theme.complement}22;
+            }
+        }
     }
 
 
-    .sep-sm {
+    .sep-sm, .sep {
         > * {
             margin: ${props => props.theme.spacing.sm/2}rem;
         }

@@ -15,7 +15,7 @@ import Resume from './pages/Resume'
 import WordleSolver from './pages/WordleSolver'
 import ParticleMesh from './pages/ParticleMesh'
 
-import { Header, Main, Clicker } from './components/index'
+import { Header, Main, Modal } from './components/index'
 
 export default function App() {
    const [theme, _] = useTheme()
@@ -30,7 +30,8 @@ export default function App() {
       <StyledThemeProvider theme={theme}>
          <GlobalStyles theme={theme} />
             <Router>
-               <Clicker />
+               <div id='modal-root' />
+               <div id='aux-root' />
                <Header ready={ready} />
                <AnimatePresence>
                   <Routes>

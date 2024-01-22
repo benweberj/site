@@ -80,8 +80,8 @@ const jobs = [
         tech: true,
         link: 'https://www.omic.ai/',
         references: [
-            // {  name: 'Gabriel Richman', title: 'Founder & CEO', former: false, linkedIn: 'https://www.linkedin.com/in/gabrielrichman/' },
-            {  name: 'Luke Weber', title: 'CTO', former: true, linkedIn: 'https://www.linkedin.com/in/gabrielrichman/' },
+            {  name: 'Gabriel Richman', title: 'Founder & CEO', former: false, linkedIn: 'https://www.linkedin.com/in/gabrielrichman/', email: 'richman@gmail.com', number: '(415)690-9654' },
+            {  name: 'Luke Weber', title: 'CTO', former: true, github: 'https://github.com/lkwbr', email: 'lkgwbr@gmail.com' },
         ]
     },
     {
@@ -130,7 +130,7 @@ const jobs = [
         tech: false,
         link: 'https://wagrown.com/wagrown-farms/farms/item/charlton-farms',
         references: [
-            
+            { name: 'Kevin Tostenson', title: '', former: '' }
         ]
     },
 ]
@@ -151,7 +151,7 @@ export default function Work(props) {
                 style={{ position: 'relative', transition: 'opacity 0.25s ease' }}
             >
 
-                <div className='flex split intro'>
+                <div className='flex split intro' onClick={() => setViewing(j.id===viewing ? null : j.id)}>
                     <div className='flex center ps title'>
                         <img className='logo' id={j.id=='omic' && 'omic-beacon'} src={`/img/jobs/${j.id}.png`} />
                         <div>
@@ -173,7 +173,7 @@ export default function Work(props) {
                         {j.tech===true && <Omic />}
                         <h3 className='mbs mtl'>References</h3>
                         <div className='flex sep-sm'>
-                            {j.references.map((r, i) => <ReferenceCard reference={r} />)}
+                            {j.references.map((r, i) => <ReferenceCard reference={r} key={i} />)}
                         </div>
                 </AnimateHeight>
             </motion.div>
@@ -181,7 +181,7 @@ export default function Work(props) {
     }
 
     return (
-        <Main fromLeft>
+        <Main fromleft>
             <_Work>
                 <motion.h2 className='mbs'
                     initial={{ transform: 'translateY(50px)' }}
@@ -195,7 +195,7 @@ export default function Work(props) {
                     animate={{ transform: 'translateY(0px)', transition: { type: 'spring' } }}
                 >Other Jobs
                 </motion.h2>
-                {/* {makeCards(false)} */}
+                {makeCards(false)}
             </_Work>
         </Main>
     )

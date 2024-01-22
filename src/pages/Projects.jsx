@@ -10,7 +10,7 @@ const projects = [
 
 export default function Projects(props) {
     return (
-        <Main fromRight>
+        <Main fromright>
             {projects.map((project, i) => (
                 <Link to={`/projects/${project.id}`}>
                     <motion.div
