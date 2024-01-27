@@ -19,10 +19,11 @@ export default function Resume() {
     return (
         <Main frombottom>
             <h1 className='mbm'>Resume</h1>
+            <p>TODO</p>
             {/* <ResumeContainer id='resume-container' src='/resume.pdf' /> */}
-            <object data="/resume.pdf" type="application/pdf" width="100%" height="100%" className='rounded'>
+            {/* <object data="/resume.pdf" type="application/pdf" width="100%" height="100%" className='rounded'>
                 <p>Alternative text - include a link <a href="http://africau.edu/images/default/sample.pdf">to the PDF!</a></p>
-            </object>
+            </object> */}
             
         </Main>
     )

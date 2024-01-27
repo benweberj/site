@@ -1,7 +1,7 @@
 {
   "name": "all-in-one",
   "version": "0.1.0",
-  "homepage": "https://benweberj.github.io/all-in-one/",
+  "homepage": "https://benweberj.github.io/site/",
   "private": true,
   "dependencies": {
     "@react-three/drei": "^9.88.7",

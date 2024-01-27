@@ -66,13 +66,13 @@ const _Header = styled.header`
 export default function Header(props) {
     // when the user navigates to home, keep the last path in the header for a few seconds
     const [persistPathTimer, setPersistPathTimer] = useState(null)
-
     const [transparentHeader, setTransparentHeader] = useState(false)
     
     const location = useLocation()
     const { ready } = props
+    console.log(location.pathname)
 
-    const onHome = location.pathname === '/'
+    const onHome = location.pathname === '/site'
     const lastPath = localStorage.getItem('lastPath')
 
     function getWholePath(path) {
@@ -86,11 +86,11 @@ export default function Header(props) {
         const savePath = () => localStorage.setItem('lastPath', location.pathname)
         window.addEventListener('beforeunload', savePath);
 
-        if (location.pathname !== '/') {
+        if (location.pathname !== '/site') {
             localStorage.setItem('lastPath', location.pathname)
             clearTimeout(persistPathTimer)
             setPersistPathTimer(false)
-        } else if (lastPath && lastPath !== '/') {
+        } else if (lastPath && lastPath !== '/site') {
             clearTimeout(persistPathTimer)
             setPersistPathTimer(setTimeout(() =>  {
                 setPersistPathTimer(false)
@@ -107,18 +107,21 @@ export default function Header(props) {
         return () => window.removeEventListener('beforeunload', savePath)
     }, [location])
 
-    const paths = (persistPathTimer ? localStorage.getItem('lastPath') : location.pathname).split('/').filter(path => path.length>=1)
+    let paths = (persistPathTimer ? localStorage.getItem('lastPath') : location.pathname).split('/').filter(path => path.length>=1)
+    paths.shift()
+    console.log(paths)
 
     return (
         <_Header className='pm split' $ready={ready} $shadow={!transparentHeader}>
             <div className={`breadcrumbs ${persistPathTimer && 'breathe'}`}>
                 <div className='wrapper'>
-                {(!onHome || persistPathTimer) && <li><Link to='/'>home</Link></li> }
+                {(!onHome || persistPathTimer) && <li><Link to='/site'>home</Link></li> }
                 {paths.map((path, i) => (
                     <li key={`path-${i}`}>/<Link to={getWholePath(path)}>{path}</Link></li>
                     ))}
                 </div>
             </div>
+            {/* <p>{JSON.stringify(location.pathname)}</p> */}
             
             <ThemeToggler />
         </_Header>

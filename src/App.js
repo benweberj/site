@@ -36,19 +36,19 @@ export default function App() {
                <Header ready={ready} />
                <AnimatePresence>
                   <Routes>
-                     <Route path='/' exact element={<Home />} />
+                     <Route path='/site' exact element={<Home />} />
                      
-                     <Route path='/projects' exact element={<Projects />} />
-                     <Route path='/projects/wordlesolver' exact element={<WordleSolver />} />
-                     <Route path='/projects/particlemesh' exact element={<ParticleMesh theme={theme} />} />
-                     <Route path='/projects/gameoflife' exact element={<GameOfLife />} />
+                     <Route path='site/projects' exact element={<Projects />} />
+                     <Route path='site/projects/wordlesolver' exact element={<WordleSolver />} />
+                     <Route path='site/projects/particlemesh' exact element={<ParticleMesh theme={theme} />} />
+                     <Route path='site/projects/gameoflife' exact element={<GameOfLife />} />
                      
-                     <Route path='/work' exact element={<Work />} />
+                     <Route path='site/work' exact element={<Work />} />
                      {/* <Route path='/work/omic/os' exact element={<OS />} />
                      <Route path='/work/omic/c19' exact element={<C19 />} />
                      <Route path='/work/omic/info' exact element={<Info />} /> */}
                      
-                     <Route path='/resume' exact element={<Resume />} />
+                     <Route path='site/resume' exact element={<Resume />} />
                      
                      <Route path='*' element={<UnknownPage />} />
                   </Routes>
@@ -66,10 +66,10 @@ const UnknownPage = () => {
          <p>Go here instead?</p>
          <div className='flex sep-sm'>
             {[
-               { link: '/', name: 'Home' },
-               { link: '/projects', name: 'Projects' },
-               { link: '/work', name: 'Work Experience'},
-               { link: '/resume', name: 'Resume'},
+               { link: 'site/', name: 'Home' },
+               { link: 'site/projects', name: 'Projects' },
+               { link: 'site/work', name: 'Work Experience'},
+               { link: 'site/resume', name: 'Resume'},
             ].map(page => (
                <Link to={page.link}>
                   <button className='chip'>{page.name}</button>
