@@ -246,7 +246,7 @@ export default function GameOfLife(props) {
                 </motion.button>
 
                 <motion.button
-                    onClick={initBoard}
+                    onClick={() => { setPaused(true); initBoard() } }
                     initial={{ transform: 'translateY(20px)', opacity: 0 }}
                     animate={{ transform: 'translateY(0px)', opacity: 1, transition: { type: 'spring', delay: 1.2 } }}
                 >
