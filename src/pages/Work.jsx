@@ -146,7 +146,7 @@ export default function Work(props) {
 
                 <div className='flex split intro' onClick={() => setViewing(j.id===viewing ? null : j.id)}>
                     <div className='flex center ps title'>
-                        <img className='logo' id={j.id=='omic' && 'omic-beacon'} src={`/img/jobs/${j.id}.png`} />
+                        <img className='logo' id={j.id=='omic' && 'omic-beacon'} src={`${process.env.PUBLIC_URL}/img/jobs/${j.id}.png`} />
                         <div>
                             <h3>{j.title}</h3>
                             <h4 className='thin'>{j.company}</h4>
@@ -157,7 +157,7 @@ export default function Work(props) {
                         <a href={j.link} target='_blank'><button>Check them out</button></a>
                         <button onClick={() => setViewing(j.id===viewing ? null : j.id)} className={`center ${j.id===viewing && 'selected'}`}>
                             <span className='prs'>{j.id===viewing ? 'Less' : 'More'}</span>
-                            <img src='/img/back.png' className='trans' width={15} style={{ transform: `rotate(${viewing === j.id ? 90 : -90}deg)` }} />
+                            <img src={process.env.PUBLIC_URL + '/img/back.png'} className='trans' width={15} style={{ transform: `rotate(${viewing === j.id ? 90 : -90}deg)` }} />
                         </button>
                     </div>
                 </div>

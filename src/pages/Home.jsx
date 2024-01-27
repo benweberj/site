@@ -43,7 +43,7 @@ export default function Home(props) {
                             animate={{ transform: 'translateX(10px)', opacity: 0.7 }}
                             transition={{ type: 'spring', duration: 0.5, delay: 0.7 }}
                         >
-                            <img src='/img/back.png' />
+                            <img src={process.env.PUBLIC_URL + '/img/back.png'} />
                             <h4>Work</h4>
                         </motion.div>
                     </Link>
@@ -56,7 +56,7 @@ export default function Home(props) {
                             transition={{ type: 'spring', duration: 0.5, delay: 0.8 }}
                         >
                             <h4>Projects</h4>
-                            <img src='/img/back.png' />
+                            <img src={process.env.PUBLIC_URL + '/img/back.png'} />
                         </motion.div>
                     </Link>
                 </Links>

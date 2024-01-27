@@ -250,7 +250,7 @@ export default function Socials({ ready }) {
                         ))}
                     </motion.svg>
                     <button onClick={() => onClick(social.id)}>
-                        <img src='img/back.png' alt='go' />
+                        <img src={process.env.PUBLIC_URL + '/img/back.png'} alt='go' />
                     </button>
                     <p>{social.name}</p>
                 </div>
