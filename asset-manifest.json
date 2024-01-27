@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/all-in-one/static/js/main.d825542e.js",
-    "index.html": "/all-in-one/index.html",
-    "main.d825542e.js.map": "/all-in-one/static/js/main.d825542e.js.map"
+    "main.js": "/site/static/js/main.20569b9e.js",
+    "index.html": "/site/index.html",
+    "main.20569b9e.js.map": "/site/static/js/main.20569b9e.js.map"
   },
   "entrypoints": [
-    "static/js/main.d825542e.js"
+    "static/js/main.20569b9e.js"
   ]
 }
