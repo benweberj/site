@@ -14,6 +14,7 @@ import Resume from './pages/Resume'
 
 import WordleSolver from './pages/WordleSolver'
 import ParticleMesh from './pages/ParticleMesh'
+import GameOfLife from './pages/GameOfLife'
 
 import { Header, Main, Modal } from './components/index'
 
@@ -40,6 +41,7 @@ export default function App() {
                      <Route path='/projects' exact element={<Projects />} />
                      <Route path='/projects/wordlesolver' exact element={<WordleSolver />} />
                      <Route path='/projects/particlemesh' exact element={<ParticleMesh theme={theme} />} />
+                     <Route path='/projects/gameoflife' exact element={<GameOfLife />} />
                      
                      <Route path='/work' exact element={<Work />} />
                      {/* <Route path='/work/omic/os' exact element={<OS />} />

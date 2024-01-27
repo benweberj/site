@@ -7,9 +7,9 @@ import { ThemeToggler } from './index'
 
 const _Header = styled.header`
     transition: opacity 1s ease;
-    opacity: ${props => props.ready ? 1 : 0};
+    opacity: ${props => props.$ready ? 1 : 0};
 
-    box-shadow: ${props => (props.ready && props.shadow) ? `10px 10px 20px ${props.theme.bg}, 10px 10px 30px ${props.theme.bg}` : 'none'};
+    box-shadow: ${props => (props.$ready && props.$shadow) ? `10px 10px 20px ${props.theme.bg}, 10px 10px 30px ${props.theme.bg}` : 'none'};
     z-index: 2;
     transition: box-shadow 0.25s ease;
 
@@ -110,7 +110,7 @@ export default function Header(props) {
     const paths = (persistPathTimer ? localStorage.getItem('lastPath') : location.pathname).split('/').filter(path => path.length>=1)
 
     return (
-        <_Header className='pm split' ready={ready} shadow={!transparentHeader}>
+        <_Header className='pm split' $ready={ready} $shadow={!transparentHeader}>
             <div className={`breadcrumbs ${persistPathTimer && 'breathe'}`}>
                 <div className='wrapper'>
                 {(!onHome || persistPathTimer) && <li><Link to='/'>home</Link></li> }

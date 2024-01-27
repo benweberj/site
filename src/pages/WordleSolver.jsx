@@ -80,8 +80,6 @@ export default function WordleSolver(props) {
                 else if (status === 'maybe') states[letter] = [0, 1, 2, 3, 4].filter(x => x != idx)
             }
         })
-        // console.log(states)
-        // console.log(letters)
 
         const rights = {}
         const maybes = []
@@ -279,32 +277,7 @@ export default function WordleSolver(props) {
                     {possibleWords.length > wordLimit && !viewingAllWords && <button className='word-option view-all chip' onClick={() => setViewingAllWords(true)}>See all <b>{' ' + possibleWords.length}</b></button>}
                     {viewingAllWords && <button className='word-option view-all chip' onClick={() => setViewingAllWords(false)}>See less</button>}
                 </motion.div>
-                {/* <motion.div className='word-list flex sep-sm' layout>
-                    <AnimatePresence>
-                        {(viewingAllWords ? possibleWords : limitedWords).map((word, i) => (
-                            <motion.button
-                                layoutId={word}
-                                key={word}
-                                onClick={word === 'Wordle' ? () => window.open('https://www.nytimes.com/games/wordle/index.html', '_blank') : () => addToBoard(word)}
-                                className={`chip word-option ${word == 'Wordle' && 'wrdl'} ${commonWords.includes(word) && 'common'}`}
-                                initial={{ transform: 'scale(0)' }}
-                                animate={{ transform: 'scale(1)', transition: { type: 'spring', delay: i*0.005  } }}
-                                exit={{ transform: 'scale(0)', transition: { type: 'spring',   } }}
-                            >
-                                {word}
-                            </motion.button>
-                        ))}
-                        {possibleWords.length > wordLimit && !viewingAllWords && <button className='word-option view-all chip' onClick={() => setViewingAllWords(true)}>See all <b>{' ' + possibleWords.length}</b></button>}
-                        {viewingAllWords && <button className='word-option view-all chip' onClick={() => setViewingAllWords(false)}>See less</button>}
-                    </AnimatePresence>
-                </motion.div> */}
             </div>
-
-            {/* <Modal title={<><b>{possibleWords.length}</b> possible words</>} open={viewingAllWords} onClose={() => setViewingAllWords(false)}>
-                <div className='word-list just-words'>
-                    {possibleWords.map(w => <div className={`word-option ${commonWords.includes(w) && 'common'}`}>{w}</div>)}
-                </div>
-            </Modal> */}
         </WordleContainer>
     )
 }
@@ -313,8 +286,6 @@ const WordleContainer = styled.main`
     padding: 5vh;
 
     .board {
-        // width: min(85vw, 300px);
-        // height: min(85vw, 300px);
         width: clamp(300px, 50vh, calc(100vw - 10vh));
         height: clamp(300px, 50vh, calc(100vw - 10vh));
         display: grid;

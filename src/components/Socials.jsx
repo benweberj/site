@@ -4,6 +4,7 @@ import { styled } from 'styled-components'
 import { motion } from 'framer-motion'
 import { toast, Toaster } from 'react-hot-toast'
 
+import { copyToClipboard } from '../extras/tools'
 import { useTheme } from '../extras/ThemeContext'
 
 const _Socials = styled.section`
@@ -73,27 +74,15 @@ export default function Socials({ ready }) {
     const navigate = useNavigate()
 
     function onClick(id) {
-        if (id==='email') {
-            const email = 'ben.weberj@gmail.com'
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(email)
-            } else {
-                const textarea = document.createElement('textarea')
-                textarea.value = email
-                document.body.appendChild(textarea)
-                textarea.select()
-                document.execCommand('copy')
-                document.body.removeChild(textarea)
-            }
-
-            toast('Email copied', {
-                style: {
-                    background: theme.complement,
-                    color: theme.base,
-                    fontSize: '0.8rem',
-                    padding: '5px 15px'
-                }
-            })
+        if (id == 'email') {
+            copyToClipboard('ben.weberj@gmail.com')
+            const toastProps = { style: {
+                background: theme.complement,
+                color: theme.base,
+                fontSize: '0.8rem',
+                padding: '5px 15px',
+            }}
+            toast('Email copied', toastProps)
         }
 
         if (id==='github') {

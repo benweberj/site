@@ -11,9 +11,12 @@ export default function Omic(props) {
     return (
         <section>
             <div className='flex center sep-sm mym'>
-                <button className={`chip ${showing==='glass' && 'selected'}`} onClick={() => setShowing(showing==='glass' ? null : 'glass')}>glass UI</button>
+                {[['glass', 'Glass UI'], ['components', 'Component Library'], ['sites', 'Sites']].map(([id, name], i) => (
+                    <button className={`chip ${showing===id && 'selected'}`} onClick={() => setShowing(showing===id ? null : id)}>{name}</button>
+                ))}
+                {/* <button className={`chip ${showing==='glass' && 'selected'}`} onClick={() => setShowing(showing==='glass' ? null : 'glass')}>glass UI</button>
                 <button className={`chip ${showing==='components' && 'selected'}`} onClick={() => setShowing(showing==='components' ? null : 'components')}>component library</button>
-                <button className={`chip ${showing==='sites' && 'selected'}`} onClick={() => setShowing(showing==='sites' ? null : 'sites')}>sites</button>
+                <button className={`chip ${showing==='sites' && 'selected'}`} onClick={() => setShowing(showing==='sites' ? null : 'sites')}>sites</button> */}
             </div>
 
             <AnimateHeight open={showing==='glass'}>
@@ -103,6 +106,7 @@ const Sites = () => {
     return (
         <SitesContainer className='mtm'>
             <h3 className=''>Websites I developed for Omic</h3>
+            <p style={{fontSize: '0.9rem', opacity: 0.5, fontStyle: 'italic'}} className='mbm mtxs'>The UI for the following pages may be inspired by my work, but I have not developed for Omic since 2021 and they have made changes.</p>
 
             <div className=''>
                 {sites.map((site, i) => (

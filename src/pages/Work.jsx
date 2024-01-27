@@ -9,7 +9,6 @@ import { Main, AnimateHeight, Omic, ReferenceCard } from '../components/index'
 const _Work = styled.section`
 
     > .card {
-        // padding: 2vmin;
         margin-bottom: 1rem;
         
         &:hover {
@@ -23,13 +22,7 @@ const _Work = styled.section`
             opacity: ${props => props.theme.mode==='dark' ? 1 : 0.7};
             transition: opacity 0.25s ease;
         }
-
-        // h4 {
-        //     font-weight: 100;
-        //     opacity: 0.5;
-        //     padding-top: 2px;
-        // }
-
+        
         .buttons {
             button img {
                 filter: ${props => props.theme.mode=='dark' ? 'invert()' : 'none'};
@@ -76,7 +69,7 @@ const jobs = [
         title: 'Lead Web Developer',
         company: 'Omic MD',
         years: '(2020-2021)',
-        desc: <>At Omic, I revamped the website for our biology API, replacing verbose MUI components with my own suite of highly customizable components, allowing for a cleaner and  faster design prototyping process. I introduced <b className='oneline'>Glass UI</b>: a minimalist, futuristic aesthetic with translucent components and custom icons. The result was a futuristic and sleek user experience, evoking a sense of effortless interaction with complex data.</>,
+        desc: <>At Omic, I revamped the website for our biology API, replacing verbose MUI components with my own suite of highly customizable components, allowing for a cleaner and  faster design prototyping process. I introduced <span className='oneline highlight'>Glass UI</span>, a minimalist aesthetic with translucent components and custom icons. The result was a futuristic and sleek user experience, evoking a sense of effortless interaction with complex data.</>,
         tech: true,
         link: 'https://www.omic.ai/',
         references: [

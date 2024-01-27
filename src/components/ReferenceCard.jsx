@@ -54,7 +54,7 @@ export default function ReferenceCard(props) {
 
     function handleContactClick(type) {
         console.log(reference, type)
-        if (type == 'linkedin') window.open(reference.linkedin, '_blank')
+        if (type == 'linkedIn') window.open(reference.linkedIn, '_blank')
         if (type == 'github') window.open(reference.github, '_blank')
 
         const toastProps = { style: {

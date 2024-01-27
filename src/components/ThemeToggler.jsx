@@ -5,8 +5,8 @@ import { useTheme } from '../extras/ThemeContext'
 const _ThemeToggler = styled.div`
     position: relative;
     background: ${props => props.theme.mode==='dark' ? props.theme.complement : props.theme.complement };
-    width: ${props => props.dim}px;
-    height: ${props => props.dim}px;
+    width: ${props => props.$dim}px;
+    height: ${props => props.$dim}px;
     border-radius: 99px;
     transform: scale(${props => props.theme.mode==='dark' ? 1.4 : 1}) rotate(${props => props.theme.dark ? 180 : 0}deg);
     transition: all 0.25s ease;
@@ -26,8 +26,8 @@ const _ThemeToggler = styled.div`
 
     > div {
         position: absolute;
-        width: ${props => props.dotwidth}px;
-        height: ${props => props.dotwidth}px;
+        width: ${props => props.$dotwidth}px;
+        height: ${props => props.$dotwidth}px;
         border-radius: 99px;
         transition: all 0.25s ease;
 
@@ -53,7 +53,7 @@ export default function ThemeToggler(props) {
     let w = 4 // size of dots
 
     return (
-        <_ThemeToggler dim={ww} dotwidth={w} dist={w * 0.75} theme={theme} onClick={toggle}>
+        <_ThemeToggler $dim={ww} $dotwidth={w} theme={theme} onClick={toggle}>
             <div style={{
                 background: theme.complement,
                 opacity: 0.7,

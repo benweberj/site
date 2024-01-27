@@ -324,6 +324,15 @@ export const GlobalStyles = createGlobalStyle`
         text-wrap: nowrap;
     }
 
+    .full {
+        width: 100%;
+        height: 100%;
+    }
+
+    .highlight {
+        color: ${props => props.theme.highlight};
+    }
+
     // #omic-beacon:hover::before {
     #omic-beacon {
 
@@ -396,21 +405,28 @@ const baseTheme = {
     },
     font: '',
     codeFont: 'monospace',
-    accent: '#623131'
+    accent: '#623131',
+    green: '#55bb99',
+    red: '#ff9090'
 }
 
 export const lightTheme = {
     ...baseTheme,
     mode: 'light',
+
     base: '#dddddd',
-    bg: '#ffffff',
     complement: '#333333',
+
+    bg: '#ffffff',
+    highlight: '#000000'
 }
 
 export const darkTheme = {
     ...baseTheme,
     mode: 'dark',
     base: '#333333',
-    bg: '#111111',
     complement: '#eeeeee',
+
+    bg: '#111111',
+    highlight: '#ffffff'
 }
