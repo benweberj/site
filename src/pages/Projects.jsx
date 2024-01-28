@@ -8,6 +8,7 @@ const projects = [
     { name: 'Particle Mesh', id: 'particlemesh', desc: 'A particle system where particles are attracted to each other and to your cursor.' },
     { name: 'Game of Life', id: 'gameoflife', desc: 'A clone of John Conway\'s zero-player game, Game of Life.' },
     { name: 'Poly Mesh', id: 'polymesh', desc: '...' },
+    { name: 'Pixel Snakes', id: 'pixelsnakes', desc: '...' },
 ]
 
 export default function Projects(props) {

@@ -16,6 +16,7 @@ import WordleSolver from './pages/WordleSolver'
 import ParticleMesh from './pages/ParticleMesh'
 import GameOfLife from './pages/GameOfLife'
 import PolyMesh from './pages/PolyMesh'
+import PixelSnakes from './pages/PixelSnakes'
 
 import { Header, Main, Modal } from './components/index'
 
@@ -31,6 +32,7 @@ export default function App() {
    return (
       <StyledThemeProvider theme={theme}>
          <GlobalStyles theme={theme} />
+         {/* TODO: use hash router so you can navigate to nested pages via the URL search bar */}
             <Router>
                <div id='modal-root' />
                <div id='aux-root' />
@@ -45,6 +47,7 @@ export default function App() {
                      <Route path='site/projects/particlemesh' exact element={<ParticleMesh theme={theme} />} />
                      <Route path='site/projects/gameoflife' exact element={<GameOfLife />} />
                      <Route path='site/projects/polymesh' exact element={<PolyMesh theme={theme} />} />
+                     <Route path='site/projects/pixelsnakes' exact element={<PixelSnakes theme={theme} />} />
                      
                      <Route path='site/work' exact element={<Work />} />
                      {/* <Route path='/work/omic/os' exact element={<OS />} />

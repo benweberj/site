@@ -82,6 +82,14 @@ export default function Header(props) {
         return referencedLocation.substring(0, spot + path.length)
     }
 
+    function shouldHeaderBeTransparent(pathname) {
+        let keywords = ['particlemesh', 'polymesh', 'pixelsnakes']
+        for (let key of keywords) {
+            if (pathname.includes(key)) return true
+        }
+        return false
+    }
+
     useEffect(() => {
         const savePath = () => localStorage.setItem('lastPath', location.pathname)
         window.addEventListener('beforeunload', savePath);
@@ -98,11 +106,7 @@ export default function Header(props) {
             }, 15000))
         }
 
-        if (location.pathname.includes('particlemesh') || location.pathname.includes('polymesh')) {
-            setTransparentHeader(true)
-        } else {
-            setTransparentHeader(false)
-        }
+        setTransparentHeader(shouldHeaderBeTransparent(location.pathname))
         
         return () => window.removeEventListener('beforeunload', savePath)
     }, [location])
