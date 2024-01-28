@@ -15,6 +15,7 @@ import Resume from './pages/Resume'
 import WordleSolver from './pages/WordleSolver'
 import ParticleMesh from './pages/ParticleMesh'
 import GameOfLife from './pages/GameOfLife'
+import PolyMesh from './pages/PolyMesh'
 
 import { Header, Main, Modal } from './components/index'
 
@@ -38,10 +39,12 @@ export default function App() {
                   <Routes>
                      <Route path='/site' exact element={<Home />} />
                      
+                     {/* need to pass theme to sketches/Class components since they cant use my useTheme() hook */}
                      <Route path='site/projects' exact element={<Projects />} />
                      <Route path='site/projects/wordlesolver' exact element={<WordleSolver />} />
                      <Route path='site/projects/particlemesh' exact element={<ParticleMesh theme={theme} />} />
                      <Route path='site/projects/gameoflife' exact element={<GameOfLife />} />
+                     <Route path='site/projects/polymesh' exact element={<PolyMesh theme={theme} />} />
                      
                      <Route path='site/work' exact element={<Work />} />
                      {/* <Route path='/work/omic/os' exact element={<OS />} />

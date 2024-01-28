@@ -98,7 +98,7 @@ export default function Header(props) {
             }, 15000))
         }
 
-        if (location.pathname.includes('particlemesh')) {
+        if (location.pathname.includes('particlemesh') || location.pathname.includes('polymesh')) {
             setTransparentHeader(true)
         } else {
             setTransparentHeader(false)
