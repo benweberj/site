@@ -70,7 +70,6 @@ export default function Header(props) {
     
     const location = useLocation()
     const { ready } = props
-    console.log(location.pathname)
 
     const onHome = location.pathname === '/site'
     const lastPath = localStorage.getItem('lastPath')
@@ -83,7 +82,7 @@ export default function Header(props) {
     }
 
     function shouldHeaderBeTransparent(pathname) {
-        let keywords = ['particlemesh', 'polymesh', 'pixelsnakes']
+        let keywords = ['particlemesh', 'polymesh', 'pixelsnakes', 'lightning']
         for (let key of keywords) {
             if (pathname.includes(key)) return true
         }
@@ -113,10 +112,9 @@ export default function Header(props) {
 
     let paths = (persistPathTimer ? localStorage.getItem('lastPath') : location.pathname).split('/').filter(path => path.length>=1)
     paths.shift()
-    console.log(paths)
 
     return (
-        <_Header className='pm split' $ready={ready} $shadow={!transparentHeader}>
+        <_Header id='header' className='pm split' $ready={ready} $shadow={!transparentHeader}>
             <div className={`breadcrumbs ${persistPathTimer && 'breathe'}`}>
                 <div className='wrapper'>
                 {(!onHome || persistPathTimer) && <li><Link to='/site'>home</Link></li> }
@@ -125,7 +123,6 @@ export default function Header(props) {
                     ))}
                 </div>
             </div>
-            {/* <p>{JSON.stringify(location.pathname)}</p> */}
             
             <ThemeToggler />
         </_Header>

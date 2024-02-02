@@ -1,48 +1,13 @@
 import p5 from 'p5'
 import React from 'react'
 import styled from 'styled-components'
-// import { motion } from 'framer-motion'
-// import { Toaster, toast } from 'react-hot-toast'
 
-
-let options = {
-    // pullDistance: 300,
-    // attractionForce: 2,
-    // repelMultiplier: 3,
-    // bounceDecay: .5,
-    // keepInbounds: true,
-    // nodesAttract: true,
-    // repelOnPress: true,
-    // drawConnections: true,
-    // drawParticles: true,
-    // attractedToMouse: true,
-    // debug: false,
-    // color: 'white',
-    // goingHome: false,
-}
 
 export default class PolyMesh extends React.Component {
 
     constructor(props) {
         super(props)
         this.polyRef = React.createRef()
-        options.color = props.theme.complement
-
-        this.state = {
-            // showingInstructions: false,
-            // ready: false,
-            // used: false
-        }
-
-        // setTimeout(() => {
-        //     this.setState({ ready: true, showingInstructions: true})
-        // }, 100)
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.theme != prevProps.theme) {
-            options.color = this.props.theme.complement
-        }
     }
 
     componentDidMount() {
@@ -173,10 +138,9 @@ class Rectangle {
     display(mode) {
         // start out at full white/black then slowly fade the color until its at its designated brightness
         this.fadeCounter++
-        const fc = this.fadeCounter
 
         let { randomIntensity: r, p } = this
-        r = Math.min(fc, r)
+        r = Math.min(this.fadeCounter, r)
         if (mode === 'light') {
             r = 255-r
         }

@@ -1,48 +1,12 @@
 import p5 from 'p5'
 import React from 'react'
 import styled from 'styled-components'
-// import { motion } from 'framer-motion'
-// import { Toaster, toast } from 'react-hot-toast'
-
-
-let options = {
-    // pullDistance: 300,
-    // attractionForce: 2,
-    // repelMultiplier: 3,
-    // bounceDecay: .5,
-    // keepInbounds: true,
-    // nodesAttract: true,
-    // repelOnPress: true,
-    // drawConnections: true,
-    // drawParticles: true,
-    // attractedToMouse: true,
-    // debug: false,
-    // color: 'white',
-    // goingHome: false,
-}
 
 export default class PolyMesh extends React.Component {
 
     constructor(props) {
         super(props)
         this.snakesRef = React.createRef()
-        options.color = props.theme.complement
-
-        this.state = {
-            // showingInstructions: false,
-            // ready: false,
-            // used: false
-        }
-
-        // setTimeout(() => {
-        //     this.setState({ ready: true, showingInstructions: true})
-        // }, 100)
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.theme != prevProps.theme) {
-            options.color = this.props.theme.complement
-        }
     }
 
     componentDidMount() {
@@ -125,13 +89,15 @@ class Cell {
         this.gridSize = gridSize
         this.x = x;
         this.y = y;
+        this.fadeCounter = 0
     }
 
     show(mode) {
         const { p, gridSize } = this
-        p.fill(mode === 'dark' ? 10 : 245);
+        p.fill(mode === 'dark' ? this.fadeCounter : (255 - this.fadeCounter));
         p.noStroke();
         p.ellipse(this.x + gridSize / 2, this.y + gridSize / 2, gridSize * 0.75);
+        if (this.fadeCounter < 15) this.fadeCounter++
     }
 }
 
@@ -144,6 +110,7 @@ class Snake {
         this.body = [];
         this.body.push(p.createVector(x, y));
         this.dir = p.floor(p.random(4));
+        this.fadeCounter = 0
 
         let len = p.random(3, 10);
 
@@ -192,12 +159,14 @@ class Snake {
 
     show(mode) {
         const { p, gridSize } = this
+
         for (let i = 0; i < this.body.length; i++) {
             let cell = this.body[i];
 
-            p.fill(mode === 'dark' ? 20 : 235);
+            p.fill(mode === 'dark' ? this.fadeCounter : (255-this.fadeCounter));
             p.noStroke();
             p.ellipse(cell.x + gridSize / 2, cell.y + gridSize / 2, gridSize * 0.75);
         }
+        if (this.fadeCounter < 25) this.fadeCounter+=2
     }
 }

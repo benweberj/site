@@ -7,8 +7,15 @@ const projects = [
     { name: 'Wordle Solver', id: 'wordlesolver', desc: 'A solver for the game Wordle that generates all possible words based on the current state of your Wordle game.' },
     { name: 'Particle Mesh', id: 'particlemesh', desc: 'A particle system where particles are attracted to each other and to your cursor.' },
     { name: 'Game of Life', id: 'gameoflife', desc: 'A clone of John Conway\'s zero-player game, Game of Life.' },
-    { name: 'Poly Mesh', id: 'polymesh', desc: '...' },
-    { name: 'Pixel Snakes', id: 'pixelsnakes', desc: '...' },
+    { name: 'Poly Mesh', id: 'polymesh', desc: 'A dynamic mesh of connected polygons with fluid vertices.' },
+    { name: 'Pixel Snakes', id: 'pixelsnakes', desc: 'A grid of pixels with snakes moving throughout the cells.' },
+    { name: 'Lightning', id: 'lightning', desc: '...' },
+    // !TODO: project idea -- audio/singing  -> MIDI
+    // might need to use python or somethin
+    // record audio of you humming a song or something. Doesnt even need to be a song, it should work with any words
+    // assign each second, or each sequential group of similar sounds (holding a note), to a note (EGBDAF...) and durarion (1/8, 1/4,1/2, ...)
+    // possible generate sheet music? Or simplisticly, just something like Beatlab, Ableton, ...
+    // would be sick
 ]
 
 export default function Projects(props) {

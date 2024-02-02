@@ -17,6 +17,7 @@ import ParticleMesh from './pages/ParticleMesh'
 import GameOfLife from './pages/GameOfLife'
 import PolyMesh from './pages/PolyMesh'
 import PixelSnakes from './pages/PixelSnakes'
+import Lightning from './pages/Lightning'
 
 import { Header, Main, Modal } from './components/index'
 
@@ -48,6 +49,7 @@ export default function App() {
                      <Route path='site/projects/gameoflife' exact element={<GameOfLife />} />
                      <Route path='site/projects/polymesh' exact element={<PolyMesh theme={theme} />} />
                      <Route path='site/projects/pixelsnakes' exact element={<PixelSnakes theme={theme} />} />
+                     <Route path='site/projects/lightning' exact element={<Lightning theme={theme} />} />
                      
                      <Route path='site/work' exact element={<Work />} />
                      {/* <Route path='/work/omic/os' exact element={<OS />} />
