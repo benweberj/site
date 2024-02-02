@@ -30,8 +30,17 @@ export default class ParticleMesh extends React.Component {
 
         this.state = {
             showingInstructions: false,
+            showingOptions: false,
             ready: false,
             used: false
+        }
+
+        // needs to be handled by the class so the UI can delete the particles
+        this.particles = []
+
+        this.toastOptions = {
+            duration: 1000,
+            style: { fontSize: '0.7rem', maxWidth: '40vw' }
         }
 
         setTimeout(() => {
@@ -55,7 +64,6 @@ export default class ParticleMesh extends React.Component {
 
     Sketch = p => {
         let canvas
-        let particles = []
         const parentId = 'sketch-container'
         let i = 0
         let cooldownTime = 150 // ms cooldown after spawning particle
@@ -77,7 +85,7 @@ export default class ParticleMesh extends React.Component {
     
         // vec: p5 vector, box: dimentions object returned from dim()
         function vectorInBox(vec, box) {
-            return (vec.x > 0 && vec.x < box.width) && (vec.y > 0 && vec.y < box.height)
+            return (vec.x >= box.left && vec.x < box.left+box.width) && (vec.y > box.top && vec.y < box.top+box.height)
         }
     
         const getMouse = () => p.createVector(p.mouseX, p.mouseY)
@@ -90,63 +98,29 @@ export default class ParticleMesh extends React.Component {
         }
 
         p.keyPressed = () => {
-            const toastOptions = {
-                duration: 750,
-                style: { fontSize: '0.7rem', maxWidth: '40vw' }
-            }
+            const { toastOptions } = this
 
-            if (p.key == 'x') {
-                particles = []
-                toast('Particles cleared', toastOptions)
-            }
+            if (p.key == 'x') this.clearParticles()
 
-            if (p.key == 'c') {
-                options.drawConnections =!options.drawConnections
-                toast(`Connections ${options.drawConnections ? 'shown' : 'hidden'}`, toastOptions)
-            }
+            if (p.key == 'c') this.toggleOption('drawConnections')
+            if (p.key == 'b') this.toggleOption('keepInbounds')
+            if (p.key == 'g') this.toggleOption('nodesAttract')
+            if (p.key == 'm') this.toggleOption('attractedToMouse')
+            if (p.key == 'd') this.toggleOption('debug')
+            if (p.key == 'h') this.toggleOption('goingHome')
+            
+            if (p.key == '[') this.handleStrength(false)
+            if (p.key == ']') this.handleStrength(true)
 
-            if (p.key == 'b') {
-                options.keepInbounds = !options.keepInbounds
-                toast(`Window boundaries ${options.keepInbounds ? 'enabled' : 'disabled'}`, toastOptions)
-            }
-
-            if (p.key == 'g') {
-                options.nodesAttract = !options.nodesAttract
-                options.attractedToMouse =!options.attractedToMouse
-                toast(`Inter-particle and cursor interactions ${options.nodesAttract ? 'enabled' : 'disabled'}`, toastOptions)
-            }
-
-            if (p.key == '[') {
-                if (options.attractionForce >= 0.5) options.attractionForce -= 0.5
-                toast(`Attraction force decreased to ${options.attractionForce}`, toastOptions)
-            }
-
-            if (p.key == ']') {
-                options.attractionForce += 0.5
-                toast(`Attraction force increased to ${options.attractionForce}`, toastOptions)
-            }
-
-            if (p.key == 'i') {
-                this.setState({ showingInstructions: !this.state.showingInstructions })
-            }
-
-
-            if (p.key == 'd') {
-                options.debug = !options.debug
-                toast(`Debugging ${options.debug ? 'enabled' : 'disabled'}`, toastOptions)
-            }
-
-            if (p.key == 'h') {
-                options.goingHome = !options.goingHome
-                toast(options.goingHome ? 'Going home' : 'Release particles', toastOptions)
-            }
+            if (p.key == 'i') this.setState({ showingInstructions: !this.state.showingInstructions })
 
             if (p.key == 'Backspace') {
-                deleteClosestParticle()
+                deleteClosestParticle(this.particles)
+                toast('Particle deleted', toastOptions)
             }
         }
 
-        function deleteClosestParticle() {
+        function deleteClosestParticle(particles) {
             let mouse = getMouse()
             if (particles.length > 0) {
                 let closest = [mouse.dist(particles[0].pos), 0] // [dist, index]
@@ -164,21 +138,30 @@ export default class ParticleMesh extends React.Component {
             clearTimeout(longPressTimer)
             longPressTimer = setTimeout(() => {
                 longPressTimer = null
-            }, 250)
-            
-        }
-
-        p.mouseClicked = e => {
-
+            }, 250)            
         }
 
         p.mouseReleased = e => {
-            if (this.state.ready && longPressTimer !== null) {
+            const { particles } = this
+            
+            const inRestrictedAreas = vectorInBox(getMouse(), dim('header')) || vectorInBox(getMouse(), dim('particle-controls')) || vectorInBox(getMouse(), dim('toggle-options'))
+
+            if (this.state.ready && longPressTimer !== null && !inRestrictedAreas) {
                 if (!this.state.used) {
                     this.setState({ showingInstructions: false })
                 }
                 const d = dim(parentId)
-                particles.push(new Particle(p, p.createVector(e.clientX - d.left, e.clientY - d.top)))
+
+                // TODO: fix double particle spawn on mobile
+                let x, y;
+                if (e.type === 'touchend') {
+                    x = e.changedTouches[0].clientX - d.left;
+                    y = e.changedTouches[0].clientY - d.top;
+                } else {
+                    x = e.clientX - d.left;
+                    y = e.clientY - d.top;
+                }
+                particles.push(new Particle(p, p.createVector(x, y)));
 
                 this.setState({ used: true })
                 timer = setTimeout(() => timer = null, cooldownTime)
@@ -188,7 +171,7 @@ export default class ParticleMesh extends React.Component {
         }
     
         p.draw = () => {
-            // const options = this.state.options
+            const { particles } = this
             const mouse = getMouse()
             
             p.clear()
@@ -243,7 +226,7 @@ export default class ParticleMesh extends React.Component {
                             if (options.repelOnPress) dir.mult(-1*options.repelMultiplier * (options.goingHome ? 3 : 1));
                         }
                         
-                        const strength = 2/Math.pow(mouseDist, 2)
+                        const strength = 10/Math.pow(mouseDist, 2)
                         dir.mult(p.constrain(options.attractionForce * strength, 0, options.attractionForce*.001))
 
                         particle.applyForce(dir, options.goingHome);
@@ -277,33 +260,181 @@ export default class ParticleMesh extends React.Component {
         }
     }
 
+    toggleOption(key) {
+        const { toastOptions } = this
+
+        if (key === 'nodesAttract') {
+            options.nodesAttract = !options.nodesAttract
+            toast(`Inter-particle interactions ${options.nodesAttract ? 'enabled' : 'disabled'}`, toastOptions)
+        }
+
+        if (key == 'attractedToMouse') {
+            options.attractedToMouse = !options.attractedToMouse
+            toast(`Interactions with mouse ${options.attractedToMouse ? 'enabled' : 'disabled'}`, toastOptions)
+        }
+
+        if (key == 'drawConnections') {
+            options.drawConnections = !options.drawConnections
+            toast(`Connections ${options.drawConnections ? 'shown' : 'hidden'}`, toastOptions)
+        }
+
+        if (key === 'goingHome') {
+            options.goingHome = !options.goingHome
+            toast(options.goingHome ? 'Going home' : 'Release particles', toastOptions)
+        }
+
+
+        if (key === 'debug') {
+            options.debug = !options.debug
+            toast(`Debugging ${options.debug ? 'enabled' : 'disabled'}`, toastOptions)
+        }
+
+        if (key === 'keepInbounds') {
+            options.keepInbounds = !options.keepInbounds
+            toast(`Window boundaries ${options.keepInbounds ? 'enabled' : 'disabled'}`, toastOptions)
+        }
+
+        // update UI
+        this.forceUpdate()
+    }
+
+    handleStrength(increment=true) {
+        const { toastOptions } = this
+
+        if (increment) {
+            options.attractionForce += 0.5
+            toast(`Attraction force increased to ${options.attractionForce}`, toastOptions)
+
+        } else { // decrement
+            if (options.attractionForce >= 0.5) options.attractionForce -= 0.5
+            toast(`Attraction force decreased to ${options.attractionForce}`, toastOptions)
+        }
+        this.forceUpdate()
+    }
+
+    clearParticles() {
+        const { toastOptions } = this
+        this.particles = []
+        toast('Particles cleared', toastOptions)
+    }
+
     render() {
         return (
             <>
                 <Toaster />
                 <Instructions show={this.state.showingInstructions}>
                     <ul>
+                        <li>Press <code>i</code> to toggle this menu</li>
                         <li><b>Click</b> to add a particle</li>
                         <li><b>Click and hold</b> to repel particles</li>
                         <li>Press <code>g</code> to toggle particle interactions</li>
+                        <li>Press <code>m</code> to toggle mouse interactions</li>
                         <li>Press <code>c</code> to toggle connection lines</li>
                         <li>Press <code>b</code> to toggle screen boundary</li>
                         <li>Increase/decrease attraction strength with <code>{'['}</code> and <code>{']'}</code></li>
                         <li>Press <code>x</code> to clear all particles</li>
                         <li>Press <code>d</code> to see each particle's sphere of influence</li>
-                        <li>Press <code>i</code> to toggle this menu</li>
                         <li>Press <code>h</code> to have all particles steer home (starting position)</li>
-                        <li>Press <code>backspace</code> to remove the particle closest to cursor</li>
+                        <li>Press <code>backspace</code> to remove the particle closest to mouse</li>
                     </ul>
                 </Instructions>
 
                 <SketchContainer id='sketch-container'>
                     <div ref={this.particleRef} />
                 </SketchContainer>
+
+                <Controls $showing={this.state.showingOptions} id='particle-controls'>
+                    <div className='entry'>
+                        <button onClick={() => this.toggleOption('nodesAttract')} className={`chip ${options.nodesAttract && 'selected'}`}>on</button>
+                        <button onClick={() => this.toggleOption('nodesAttract')} className={`chip ${!options.nodesAttract && 'selected'}`}>off</button>
+                        particle interactions (g)
+                    </div>
+
+                    <div className='entry'>
+                        <button onClick={() => this.toggleOption('attractedToMouse')} className={`chip ${options.attractedToMouse && 'selected'}`}>on</button>
+                        <button onClick={() => this.toggleOption('attractedToMouse')} className={`chip ${!options.attractedToMouse && 'selected'}`}>off</button>
+                        mouse interactions (m)
+                    </div>
+
+                    <div className='entry'>
+                        <button onClick={() => this.toggleOption('drawConnections')} className={`chip ${options.drawConnections && 'selected'}`}>on</button>
+                        <button onClick={() => this.toggleOption('drawConnections')} className={`chip ${!options.drawConnections && 'selected'}`}>off</button>
+                        connection lines (c)
+                    </div>
+
+                    <div className='entry'>
+                        <button onClick={() => this.toggleOption('keepInbounds')} className={`chip ${options.keepInbounds && 'selected'}`}>on</button>
+                        <button onClick={() => this.toggleOption('keepInbounds')} className={`chip ${!options.keepInbounds && 'selected'}`}>off</button>
+                        screen boundary (b)
+                    </div>
+
+                    <div className='entry'>
+                        <button onClick={() => this.toggleOption('goingHome')} className={`chip ${options.goingHome && 'selected'}`}>on</button>
+                        <button onClick={() => this.toggleOption('goingHome')} className={`chip ${!options.goingHome && 'selected'}`}>off</button>
+                        home seeking (h)
+                    </div>
+
+                    <div className='entry'>
+                        <button onClick={() => this.toggleOption('debug')} className={`chip ${options.debug && 'selected'}`}>on</button>
+                        <button onClick={() => this.toggleOption('debug')} className={`chip ${!options.debug && 'selected'}`}>off</button>
+                        debug lines (d)
+                    </div>
+
+                    <div className='entry'>
+                        <button onClick={() => this.handleStrength(false)} className={`chip`}>-</button>
+                        {options.attractionForce.toFixed(1)}
+                        <button onClick={() => this.handleStrength(true)} className={`chip sm`}>+</button>
+                        attraction force ([/])
+                    </div>
+
+                    <div className='entry'>
+                        <button onClick={this.clearParticles.bind(this)} className={`chip`}>clear particles</button>
+                    </div>
+
+                    <div id='toggle-options'>
+                        <button onClick={() => this.setState({ showingOptions: !this.state.showingOptions })}>
+                            {this.state.showingOptions ? 'hide' : 'options'}
+                        </button>
+                    </div>
+
+                </Controls>
             </>
         )
     }
 }
+
+const Controls = styled.div`
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    transition: transform 0.5s ease;
+    transform: translateX(${props => props.$showing ? 0 : '-110%'});
+
+    #toggle-options {
+        position: absolute;
+        bottom: 0;
+        right: -10%;
+        transform: translateX(100%);
+    }
+
+    * {
+        font-size: 0.8rem;
+    }
+
+    .entry {
+        margin-bottom: 5px;
+
+        button {
+            margin: 2px;
+
+            &:nth-child(2) {
+                margin-right: 10px;
+            }
+        }
+    }
+
+`
+
 
 class Particle {
     constructor(p, pos) {
@@ -392,9 +523,9 @@ class Particle {
 
     respawn() {
         // let rate = this.p.random(.2, .4);
-        let rate = 0;
+        let rate = 3;
         this.pos = this.p.createVector(this.p.random(-100, this.p.width + 100), -100);
-        this.vel = this.p.createVector(this.p.random(-rate, rate), this.p.random(-rate + rate, rate));
+        this.vel = this.p.createVector(this.p.random(-rate, rate), this.p.random(-rate, rate));
         this.potential = this.p.random(3,7);
     }
 }
