@@ -270,6 +270,8 @@ export default function GameOfLife(props) {
 }
 
 const Board = styled.div`
+    height: 70vh;
+    
     .row {
         display: flex;
 
