@@ -60,14 +60,34 @@ export default class PolyMesh extends React.Component {
                 p.text(str, window.innerWidth / 2 - (str.length * 6), window.innerHeight / 2 - 16);
             }
         }
+
+        function dim(id) {
+            const a = document.getElementById(id)
+            if (!a) return { top: 0, left: 0, width: 0, height: 0 }
+            return {
+                top: a.getBoundingClientRect().top,
+                left: a.getBoundingClientRect().left,
+                width: a.clientWidth,
+                height: a.clientHeight,
+            }
+        }
+    
+        function vectorInBox(vec, box) {
+            return (vec.x >= box.left && vec.x < box.left+box.width) && (vec.y > box.top && vec.y < box.top+box.height)
+        }
+    
+        const getMouse = () => p.createVector(p.mouseX, p.mouseY)
         
         p.mousePressed = () => {
+            const clickedOnHeader = vectorInBox(getMouse(), dim('header'))
+            if (clickedOnHeader) return
+            
             if (!started) {
                 started = true
                 this.rainSounds.play()
             }
+
             new Bolt(p, p.mouseX, p.mouseY, 2, 255, 1, 50, 0.1, 2, true);
-            //   if (first)
         }
         
         p.windowResized = () => {
@@ -174,11 +194,21 @@ class Bolt {
                 clearInterval(timer)
 
                 if (this.first) {
-                    // clap.currentTime = 0
-                    let randDist = p.random(1,1000)
-                    let vol = Math.max(Math.min(1, 100 / randDist), 0.1)
-                    let c = new Audio(process.env.PUBLIC_URL + '/clap.mp3')
-                    setTimeout(() => { c.volume = vol; c.play() } , randDist)
+                    const rands = [
+                        [1, 0], // [volume, delay]
+                        [0.5, 500],
+                        [0.4, 750],
+                        [0.3, 1000],
+                        [0.1, 1500],
+                        [1, 0],
+                    ]
+                    // pick random volume\delay preset for thunder
+                    let r = rands[Math.floor(Math.random() * rands.length)]
+                    
+                    // use different clap for near and far away strikes
+                    let c = new Audio(process.env.PUBLIC_URL + (r[0] < 0.5 ? '/distantClap.mp3' : '/clap.mp3'))
+                    
+                    setTimeout(() => { c.volume = 1; c.play() }, r[1])
                     this.retrace()
                 }
             }

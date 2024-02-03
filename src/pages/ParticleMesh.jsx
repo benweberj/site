@@ -392,7 +392,7 @@ export default class ParticleMesh extends React.Component {
                     </div>
 
                     <div id='toggle-options'>
-                        <button onClick={() => this.setState({ showingOptions: !this.state.showingOptions })}>
+                        <button className={this.state.showingOptions && 'red'} onClick={() => this.setState({ showingOptions: !this.state.showingOptions })}>
                             {this.state.showingOptions ? 'hide' : 'options'}
                         </button>
                     </div>
