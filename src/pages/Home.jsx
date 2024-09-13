@@ -12,6 +12,7 @@ export default function Home(props) {
     useEffect(() => {
         setReady(true)
     }, [])
+    
     return (
         <Main className='flex col center' style={{ padding: 0 }}>
             <TwoFace ready={ready} />

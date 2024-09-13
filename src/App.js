@@ -28,7 +28,6 @@ export default function App() {
    useEffect(() => {
       setReady(true)
    }, [])
-   
 
    return (
       <StyledThemeProvider theme={theme}>

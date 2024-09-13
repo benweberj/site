@@ -1,31 +1,29 @@
-import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import styled from 'styled-components'
-import { motion, AnimatePresence } from 'framer-motion'
 
-import {  AnimateHeight } from './index'
+import { Modal, AnimateHeight, GlassUI } from './index'
+import { useTheme } from '../extras/ThemeContext'
 
 export default function Omic(props) {
-    const [showing, setShowing] = useState(false)
+    const [showing, setShowing] = useState(null)
+    const [theme, toggle] = useTheme()
     
     return (
         <section>
             <div className='flex center sep-sm mym'>
-                {[['glass', 'Glass UI'], ['components', 'Component Library'], ['sites', 'Sites']].map(([id, name], i) => (
+                {/* {[['glass', 'Glass UI'], ['components', 'Component Library'], ['sites', 'Sites']].map(([id, name], i) => ( */}
+                {[['glass', 'Glass UI'], ['sites', 'Sites']].map(([id, name], i) => (
                     <button className={`chip ${showing===id && 'selected'}`} onClick={() => setShowing(showing===id ? null : id)}>{name}</button>
                 ))}
-                {/* <button className={`chip ${showing==='glass' && 'selected'}`} onClick={() => setShowing(showing==='glass' ? null : 'glass')}>glass UI</button>
-                <button className={`chip ${showing==='components' && 'selected'}`} onClick={() => setShowing(showing==='components' ? null : 'components')}>component library</button>
-                <button className={`chip ${showing==='sites' && 'selected'}`} onClick={() => setShowing(showing==='sites' ? null : 'sites')}>sites</button> */}
             </div>
 
-            <AnimateHeight open={showing==='glass'}>
-                <Glass />
-            </AnimateHeight>
+            <Modal full glass ready={showing==='glass'} onClose={() => setShowing(null)}>
+                <GlassUI ready={showing==='glass'} />
+            </Modal>
             
-            <AnimateHeight open={showing==='components'}>
+            {/* <AnimateHeight open={showing==='components'}>
                 <Components />
-            </AnimateHeight>
+            </AnimateHeight> */}
             
             <AnimateHeight open={showing==='sites'}>
                 <Sites />
@@ -34,25 +32,22 @@ export default function Omic(props) {
     )
 }
 
-const Glass = () => {
-    return (
-        <div className='glass mtm'>
-            <h3>Glass UI</h3>
-            <p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
-            <p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
-        </div>
-    )
-}
 
-const Components = () => {
-    return (
-        <div className='components mtm'>
-            <h3>Components</h3>
-            <p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
-            <p>lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
-        </div>
-    )
-}
+
+// const Components = () => {
+//     return (
+//         <div className='components mtm'>
+//             <p>...Something about how MUI and other styling alternatives are bad and mine is good</p>
+//             <h3>ljaklsdfjlkads</h3>
+//             <pre>
+//                 <code>
+                    
+
+//                 </code>
+//             </pre>
+//         </div>
+//     )
+// }
 
 const sites = [
     {
@@ -106,9 +101,9 @@ const Sites = () => {
     return (
         <SitesContainer className='mtm'>
             <h3 className=''>Websites I developed for Omic</h3>
-            <p style={{fontSize: '0.9rem', opacity: 0.5, fontStyle: 'italic'}} className='mbm mtxs'>The UI for the following pages may be inspired by my work, but I have not developed for Omic since 2021 and they have made changes.</p>
+            <p style={{fontSize: '0.9rem', opacity: 0.5, fontStyle: 'italic'}} className='mbm mtxs'>The UI for the following pages may be inspired by my work, but I have not developed for Omic since 2021.</p>
 
-            <div className=''>
+            <div>
                 {sites.map((site, i) => (
                     <a href={site.link} target='_blank'>
                         <div className={`card hoverable mts ${site.expired && 'expired'}`} key={site.id} style={{ background: site.gradient }}>

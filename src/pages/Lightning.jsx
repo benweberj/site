@@ -1,13 +1,15 @@
 import p5 from 'p5'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+
+import { useTheme } from '../extras/ThemeContext'
 
 let theme = {
     bg: '#ffffff'
 }
 
 
-export default class PolyMesh extends React.Component {
+export default class Lightning extends React.Component {
 
     constructor(props) {
         super(props)
@@ -99,12 +101,20 @@ export default class PolyMesh extends React.Component {
     render() {
         return (
             <>
+                <ThemeToggleHack />
                 <SketchContainer id='sketch-container'>
                     <div ref={this.lightningRef} />
                 </SketchContainer>
             </>
         )
     }
+}
+
+function ThemeToggleHack() {
+    const [theme, toggle] = useTheme()
+    useEffect(() => {
+        if (theme.mode === 'light') toggle()
+    }, [])
 }
 
 const SketchContainer = styled.div`

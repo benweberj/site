@@ -108,7 +108,7 @@ export default class ParticleMesh extends React.Component {
             if (p.key == 'm') this.toggleOption('attractedToMouse')
             if (p.key == 'd') this.toggleOption('debug')
             if (p.key == 'h') this.toggleOption('goingHome')
-            
+                
             if (p.key == '[') this.handleStrength(false)
             if (p.key == ']') this.handleStrength(true)
 
@@ -523,7 +523,7 @@ class Particle {
 
     respawn() {
         // let rate = this.p.random(.2, .4);
-        let rate = 3;
+        let rate = 1;
         this.pos = this.p.createVector(this.p.random(-100, this.p.width + 100), -100);
         this.vel = this.p.createVector(this.p.random(-rate, rate), this.p.random(-rate, rate));
         this.potential = this.p.random(3,7);

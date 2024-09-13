@@ -26,16 +26,10 @@ export default function Motion(props) {
         animate = { transform: 'translateY(0px)', transition: { type: 'spring', duration: 0.75 } }
     }
 
-
-
     return (
-        // <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
         <motion.main
-            
             initial={initial}
             animate={animate}
-            // exit={exit}
-            
             {...props}
         >
             {props.children}

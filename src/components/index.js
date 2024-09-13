@@ -11,6 +11,8 @@ import Omic from './Omic'
 import ReferenceCard from './ReferenceCard'
 import Clicker from './Clicker'
 import SVG from './SVG'
+import GlassUI from './GlassUI'
+import Test from './Test'
 
 export {
     ThemeToggler,
@@ -25,5 +27,7 @@ export {
     Omic,
     ReferenceCard,
     Clicker,
-    SVG
+    SVG,
+    GlassUI,
+    Test
 }

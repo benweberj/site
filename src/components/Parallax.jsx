@@ -14,13 +14,11 @@ export default function Parallax(props) {
   return (
     <Tilt
       trackOnWindow={fs || false}
-      className={props.className + ' ' + 'parallax-effect'}
       transitionSpeed={1000}
       tiltReverse={true}
       perspective={props.perspective || 500}
-      style={{ ...props.style }}
     //   {...shineProps}
-      {...props}
+      // {...props}
     >
       {props.children}
     </Tilt>

@@ -4,9 +4,11 @@ import { motion } from 'framer-motion'
 import styled from 'styled-components'
 
 import { useTheme }  from '../extras/ThemeContext'
-import { Main, AnimateHeight, Omic, ReferenceCard } from '../components/index'
+import { Main, AnimateHeight, Omic, ReferenceCard, Test, Parallax } from '../components/index'
 
 const _Work = styled.section`
+
+    // margin-bottom: 20vw;
 
     > .card {
         margin-bottom: 1rem;
@@ -62,94 +64,140 @@ const _Work = styled.section`
         }
     }
 `
-const lorem = 'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidid unt ut labore et dolore magna aliqua. Ut enim ad minim veniam'
+
 const jobs = [
     {
         id: 'omic',
         title: 'Lead Web Developer',
         company: 'Omic MD',
         years: '(2020-2021)',
-        desc: <>At Omic, I revamped the website for our biology API, replacing verbose MUI components with my own suite of highly customizable components, allowing for a cleaner and  faster design prototyping process. I introduced <span className='oneline highlight'>Glass UI</span>, a minimalist aesthetic with translucent components and custom icons. The result was a futuristic and sleek user experience, evoking a sense of effortless interaction with complex data.</>,
+        desc: <>At Omic, I revamped the website for our biology API, replacing verbose Material UI code with my own suite of highly customizable components, allowing for a cleaner and faster design prototyping process. I introduced <span className='oneline highlight'>Glass UI</span>, a minimalist aesthetic with translucent components and custom icons. The result was a futuristic and sleek user experience, evoking a sense of effortless interaction with complex data.</>,
         tech: true,
         link: 'https://www.omic.ai/',
         references: [
-            {  name: 'Gabriel Richman', title: 'Founder & CEO', former: false, linkedIn: 'https://www.linkedin.com/in/gabrielrichman/', email: 'richman@gmail.com', number: '(415)690-9654' },
-            {  name: 'Luke Weber', title: 'CTO', former: true, github: 'https://github.com/lkwbr', email: 'lkgwbr@gmail.com' },
+            {  name: 'Gabriel Richman', title: 'Founder & CEO', former: false, linkedIn: 'https://www.linkedin.com/in/gabrielrichman/' },
+            {  name: 'Luke Weber', title: 'CTO', former: true, github: 'https://github.com/lkwbr' },
         ]
     },
     {
         id: 'wsu',
-        title: 'Events Worker',
+        title: 'Athletics Videographer',
+        company: 'Washington State University',
+        years: '(2023-Present)',
+        tasks: [
+            'Operated high-definition cameras in fast-paced environments to deliver live footage for college sporting events, including baseball and basketball',
+            'Directed on-screen graphics for WSU basketball games streamed to ESPN'
+        ],
+        tech: true,
+        link: 'https://events.wsu.edu/',
+        references: [
+            { name: 'Jared Prenguber', title: 'Associate Producer', former: false, linkedIn: 'https://www.linkedin.com/in/jared-prenguber-934baa35/' },
+            { name: 'Bob Gibson', title: 'Producer', former: false, linkedIn: 'https://www.linkedin.com/in/bob-gibson-21682633/' },
+            { name: 'Spencer Tull', title: 'CougVision Director', former: false, linkedIn: 'https://www.linkedin.com/in/spencer-tull/'  },
+        ]
+    },
+    {
+        id: 'wsu2',
+        title: 'Campus Events Staff',
         company: 'Washington State University',
         years: '(2022-Present)',
-        desc: lorem,
+        tasks: [
+            'Setup and tore down for events all across the WSU campus, anything from Club Fairs to Commencement',
+            'Played butler at high-end dinners & luncheons at the Chancellor\'s Residence, giving guests a glimpse of royalty',
+            'Coordinated the digital displays for prominent events, such as slideshows for awards banquets and the reading/displaying of names for WSU Commencement ceremonies',
+            
+//             , making sure the Chancellor's guests were well taken care of.
+// Set up and served a smooth three-course meal, handling everything from apps to dessert.
+// Collected plates and drinks during open houses, keeping things running smoothly.
+// Took charge of the bar, serving up drinks with a smile.
+// Managed setup and teardown for each event, keeping it all seamless.
+//             '',
+//             ''
+        ],
         tech: false,
         link: 'https://events.wsu.edu/',
         references: [
             { name: 'Sarah Mahaffy', title: 'Director of Events', former: false, linkedIn: 'https://www.linkedin.com/in/sarah-mahaffy-9b4686197/' },
-            { name: 'Jason Abrams', title: '...', former: true, linkedIn: 'https://www.linkedin.com/in/jason-abrams-4857517b/' },
-        ]
+            { name: 'Jason Abrams', title: 'Assistant Director of Events', former: true, linkedIn: 'https://www.linkedin.com/in/jason-abrams-4857517b/' },
+            { name: 'Ashlynn Phillips', title: 'Event Coordinator', former: false, linkedIn: 'https://www.linkedin.com/in/ashlynn-phillips-2a0253225/' },
+            { name: 'Jennifer Willis', title: 'Event Coordinator', former: false, linkedIn: 'https://www.linkedin.com/in/jennifer-n-willis/' }
+        ],
+
     },
-    {
-        id: 'avole',
-        title: 'Barista',
-        company: 'Avole Coffee',
-        years: '2019',
-        desc: lorem,
-        tech: false,
-        link: 'https://www.avolecoffee.com/',
-        references: [
-            { name: 'Gavin Amos', title: 'Shop Manager', former: false, linkedIn: 'https://www.linkedin.com/in/gavin-amos-4b6b1a112/', number: '(661) 873-5440' },
-        ]
-    },
-    {
-        id: 'super1',
-        title: 'Deli Clerk',
-        company: 'Super 1 Foods',
-        years: '2018',
-        desc: lorem,
-        tech: false,
-        link: 'https://www.super1foods.com/',
-        references: [
-            { name: 'Esteban Sevilla-nava Jr.', title: 'Deli Lead', former: true, linkedIn: 'https://www.linkedin.com/in/esteban-sevilla-9a490988/' }
-        ]
-    },
+    // {
+    //     id: 'avole',
+    //     title: 'Barista',
+    //     company: 'Avole Coffee',
+    //     years: '2019',
+    //     tasks: [
+    //         '1',
+    //         '2'
+    //     ],
+    //     tech: false,
+    //     link: 'https://www.avolecoffee.com/',
+    //     references: [
+    //         { name: 'Gavin Amos', title: 'Executive of Business Development', former: false, linkedIn: 'https://www.linkedin.com/in/gavin-amos-4b6b1a112/' },
+    //     ]
+    // },
+    // {
+    //     id: 'super1',
+    //     title: 'Deli Clerk',
+    //     company: 'Super 1 Foods',
+    //     years: '2018',
+    //     tasks: [
+    //         '1',
+    //         '2'
+    //     ],
+    //     tech: false,
+    //     link: 'https://www.super1foods.com/',
+    //     references: [
+    //         { name: 'Esteban Sevilla-nava Jr.', title: 'Deli Lead', former: true, linkedIn: 'https://www.linkedin.com/in/esteban-sevilla-9a490988/' }
+    //     ]
+    // },
     {
         id: 'charltonfarms',
         title: 'Farm Equipment Technician',
         company: 'Charlton Farms',
         years: '(2016-2018)',
-        desc: lorem,
+        tasks: [
+            'Operated and maintained a range of farm equipment, including balers, fluffers, and rakes, to optimize crop production and harvest efficiency',
+            'Performed routine inspections, repairs, and maintenance on equipment to ensure peak performance and longevity'
+        ],
         tech: false,
         link: 'https://wagrown.com/wagrown-farms/farms/item/charlton-farms',
         references: [
-            { name: 'Kevin Tostenson', title: '', former: '' }
+            { name: 'Mark Charlton', title: 'President', former: false },
+            { name: 'Kevin Tostenson', title: 'Foreman', former: true }
         ]
     },
 ]
 
 export default function Work(props) {
-    const [viewing, setViewing] = useState('omic')
+    const [viewing, setViewing] = useState(null)
     // const [hovering, setHovering] = useState(null)
 
     const [theme, _] = useTheme()
 
-    function makeCards(tech=false) { // tech = omic
-        return jobs.filter(j => j.tech==tech).map((j, i) => (
+    // styles the jobs array into JSX cards
+    // tech=omic for now
+    function makeCards(tech=false) {
+        const dark = theme.mode === 'dark'
+        const cards = jobs.filter(j => j.tech==tech).map((j, i) => (
             <motion.div
                 initial={{ transform: 'translateX(-100px)' }}
-                animate={{ transform: 'translateX(0px)', transition: { delay: i*0.1, type: 'spring' }}}
+                animate={{ transform: 'translateX(0px)', transition: { delay: i*0.1, type: 'spring' } }}
                 key={j.title}
-                className={`card ${viewing && (viewing !== j.id) && !j.tech ? 'faded' : ''} ${viewing===j.id && 'selected'} ${j.tech && 'pl'}`}
+                className={`card ${viewing && (viewing !== j.id) && j.id != 'omic' ? 'faded' : ''} ${viewing===j.id && 'selected'} ${j.tech && 'pl'} ${j.id==='omic' && dark && 'glow-border'}`}
                 style={{ position: 'relative', transition: 'opacity 0.25s ease' }}
             >
+                {console.log(j.id)}
 
                 <div className='flex split intro' onClick={() => setViewing(j.id===viewing ? null : j.id)}>
                     <div className='flex center ps title'>
                         <img className='logo' id={j.id=='omic' && 'omic-beacon'} src={`${process.env.PUBLIC_URL}/img/jobs/${j.id}.png`} />
                         <div>
                             <h3>{j.title}</h3>
-                            <h4 className='thin'>{j.company}</h4>
+                            <h4 className='thin mts'>{j.company}</h4>
                         </div>
                     </div>
 
@@ -162,15 +210,29 @@ export default function Work(props) {
                     </div>
                 </div>
                 <AnimateHeight open={viewing===j.id}>
-                        <p className='mym'>{j.desc}</p>
-                        {j.tech===true && <Omic />}
-                        <h3 className='mbs mtl'>References</h3>
-                        <div className='flex sep-sm'>
-                            {j.references.map((r, i) => <ReferenceCard reference={r} key={i} />)}
-                        </div>
+                    {/* Just for Omic */}
+                    {j.desc && <p className='mym'>{j.desc}</p>}
+                    
+                    {/* For all non-tech jobs */}
+                    {j.tasks && <ul className='task-list pts pll'>
+                        {j.tasks.map((task, i) => (
+                            <li key={`task-${j.id}-${i}`} className='ptm'>
+                                {task}
+                            </li>
+                        ))}
+                        
+                    </ul>}
+
+                    {j.id === 'omic' && <Omic />}
+                    <h3 className='mbs mtl'>References</h3>
+                    <div className='flex sep-sm'>
+                        {j.references.map((r, i) => <ReferenceCard reference={r} key={i} />)}
+                    </div>
                 </AnimateHeight>
             </motion.div>
         ))
+
+        return cards
     }
 
     return (

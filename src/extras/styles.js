@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 
+const si = 2 // shake intensity for shake-head animation
+
 export const GlobalStyles = createGlobalStyle`
     // css reset
     * {
@@ -8,7 +10,7 @@ export const GlobalStyles = createGlobalStyle`
         box-sizing: border-box;
         outline: none;
         border: none;
-        font-family: Chivo Mono, sans-serif;
+        font-family: Mulish, sans-serif;
         color: ${props => props.theme.complement+'bb'};
 
         scrollbar-width: thin;
@@ -70,6 +72,10 @@ export const GlobalStyles = createGlobalStyle`
         // &.xxl {
         //     font-size: 300%;
         // }
+    }
+
+    li {
+        line-height: 1.5
     }
 
     h1 {
@@ -187,6 +193,160 @@ export const GlobalStyles = createGlobalStyle`
             &:hover {
                 background: ${props => props.theme.complement}22;
             }
+        }
+    }
+
+    .task-list {
+        padding-left: ${props => props.theme.spacing.lg}rem;
+        li {
+
+        }
+    }
+
+    .contact-reference {
+        // margin-top: 3rem;
+        // margin-bottom: -2rem;
+        color: ${props => props.theme.complement}66;
+
+        .contact-me {
+            cursor: pointer;
+            color: ${props => props.theme.complement}aa;
+
+            &:hover {
+                color: ${props => props.theme.complement};
+            }
+        }
+    }
+
+    .underline-hover {
+        position: relative;
+        
+        &:after {
+            position: absolute;
+            content: '';
+            width: 0%;
+            height: 3px;
+            inset: calc(100% + 3px) auto auto 0;
+            background: ${props => props.theme.complement};
+            transition: all 0.25s ease;
+        }
+
+        &:hover {
+            &:after {
+                width: 93%;
+            }
+        }
+    }
+
+    .scale-hover {
+        transition: all 0.25s ease;
+        &:hover {
+            transform: scale(1.2);
+            opacity: 0.75;
+        }
+    }
+
+
+    .glow-border {
+
+        button {
+            background: #fff1;
+            border: 1px solid #fff;
+            position: relative;
+            overflow: hidden;
+            
+            color: #fff;
+            *, :not(img) { color: #fff; transition: all 0.5s ease; transform: rotateY(0deg); }
+
+            
+
+            &.selected {
+                border: 1px solid #fff8;
+                color: #fff5;
+                * { color: #fff5 }
+
+                img {
+                    filter: invert(1) !important;
+                    opacity: 0.5;
+                }
+
+            }
+
+            &:after {
+                z-index: -1;
+                content: '';
+                transition: all 0.5s ease;
+                position: absolute;
+                inset: 0;
+                transform: scaleY(0);
+                // transform-origin: left;
+                background: #c19;
+                filter: blur(5px);
+            }
+
+            &:hover {
+                // background: #fff;
+                box-shadow: 0 0 20px 5px #c195;
+                color: #3a2854;
+                *, :not(img) { color: #3a2854; transform: rotateX(360deg); }
+
+                img {
+                    filter: invert(0) !important;
+                    opacity: 1;
+                }
+
+                &:after {
+                    background: #fff;
+                    filter: none;
+                    transform: scaleY(1);
+                }
+            }
+        }
+
+        --border-angle: 0turn;
+        
+        // --pink: #200d29;
+        // --blue: #091426;
+        // --purple: #1c162b;
+        --pink: #213;
+        --blue: #112;
+        --purple: #1c162b;
+
+        --main-bg: conic-gradient(
+            from var(--border-angle),
+            var(--pink),
+            var(--purple) 5%,
+            var(--blue) 60%,
+            var(--pink) 95%
+        );
+
+        border: solid 1px transparent;
+        border-radius: ${props => props.theme.corners}rem;
+        --gradient-border: conic-gradient(
+            from var(--border-angle),
+            transparent 25%,
+            #5b9bea,
+            #c19 99%,
+            transparent
+        );
+
+        background: 
+        // padding-box clips this bg everywhere except border
+        var(--main-bg) padding-box,
+        // border-box extends bg to the border space
+        var(--gradient-border) border-box;
+
+        background-position: center center;
+        animation: bg-spin 15s linear infinite;
+
+        @keyframes bg-spin {
+            to { --border-angle: 1turn }
+        }
+
+        @property --border-angle {
+            syntax: "<angle>";
+            inherits: true;
+            initial-value: 0turn;
         }
     }
 
@@ -314,11 +474,21 @@ export const GlobalStyles = createGlobalStyle`
 
     .flex { display: flex; flex-wrap: wrap; }
     .col { display: flex; flex-direction: column; flex-wrap: wrap; }
-    .center { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
+    :not(p):not(h1):not(h2):not(h3):not(h4).center { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
     .split { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
     .end { display: flex; justify-content: flex-end; flex-wrap: wrap; }
     .start { display: flex; justify-content: flex-start; flex-wrap: wrap; }
     .nowrap { flex-wrap: nowrap }
+    .rel { position: relative }
+    .contain { overflow: hidden }
+
+    p.center, h1.center, h2.center, h3.center, h4.center {
+        text-align: center;
+    }
+
+    .align-center {
+        align-items: center;
+    }
 
     .oneline {
         text-wrap: nowrap;
@@ -365,6 +535,42 @@ export const GlobalStyles = createGlobalStyle`
         }
     }
 
+    @keyframes shake-head {
+        0% {
+          transform: rotateY(${si * 0}deg);
+        }
+        10% {
+          transform: rotateY(${si * -10}deg);
+        }
+        20% {
+          transform: rotateY(${si * 10}deg);
+        }
+        30% {
+          transform: rotateY(${si * -10}deg);
+        }
+        40% {
+          transform: rotateY(${si * 10}deg);
+        }
+        50% {
+          transform: rotateY(${si * -5}deg);
+        }
+        60% {
+          transform: rotateY(${si * 5}deg);
+        }
+        70% {
+          transform: rotateY(${si * -2.5}deg);
+        }
+        80% {
+          transform: rotateY(${si * 2.5}deg);
+        }
+        90% {
+          transform: rotateY(${si * -1}deg);
+        }
+        100% {
+          transform: rotateY(${si * 0}deg);
+        }
+      }
+
     // @keyframes pulse {
     //     0% {
     //       transform: scale(5);
@@ -391,6 +597,9 @@ export const GlobalStyles = createGlobalStyle`
             border: 1px dashed ${props => props.theme.complement}88;
             > * {
                 border: 1px dashed ${props => props.theme.complement}44;
+                > * {
+                    border: 1px dashed ${props => props.theme.complement}22;
+                }
             }
         }
     }
@@ -405,7 +614,7 @@ const baseTheme = {
     },
     font: '',
     codeFont: 'monospace',
-    accent: '#623131',
+    accent: '#669f7a',
     green: '#55bb99',
     red: '#ff9090'
 }
@@ -414,10 +623,10 @@ export const lightTheme = {
     ...baseTheme,
     mode: 'light',
 
-    base: '#dddddd',
-    complement: '#333333',
+    base: '#cccccc',
+    complement: '#0f141a',
 
-    bg: '#ffffff',
+    bg: '#eeeeee',
     highlight: '#000000'
 }
 
@@ -427,6 +636,8 @@ export const darkTheme = {
     base: '#333333',
     complement: '#eeeeee',
 
-    bg: '#111111',
+    bg: '#100f15',
+    bg: '#0f141a',
+    
     highlight: '#ffffff'
 }

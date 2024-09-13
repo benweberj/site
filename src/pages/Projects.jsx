@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
-import { Main } from '../components/index'
+import { Main, SVG } from '../components/index'
 
 const projects = [
     { name: 'Wordle Solver', id: 'wordlesolver', desc: 'A solver for the game Wordle that generates all possible words based on the current state of your Wordle game.' },
     { name: 'Particle Mesh', id: 'particlemesh', desc: 'A particle system where particles are attracted to each other and to your cursor.' },
     { name: 'Game of Life', id: 'gameoflife', desc: 'A clone of John Conway\'s zero-player game, Game of Life.' },
+    { name: 'Lightning', id: 'lightning', desc: 'Rain, thunder, and lightning simulation.' },
     { name: 'Poly Mesh', id: 'polymesh', desc: 'A dynamic mesh of connected polygons with fluid vertices.' },
     { name: 'Pixel Snakes', id: 'pixelsnakes', desc: 'A grid of pixels with snakes moving throughout the cells.' },
-    { name: 'Lightning', id: 'lightning', desc: '...' },
     // !TODO: project idea -- audio/singing  -> MIDI
     // might need to use python or somethin
     // record audio of you humming a song or something. Doesnt even need to be a song, it should work with any words
@@ -30,7 +30,11 @@ export default function Projects(props) {
                         animate={{ opacity: 1, transform: 'translateX(0px)', transition: { type: 'spring', delay: i * 0.1 } }}
                     >
                         <div className='card'>
-                            <h3 className='mbs'>{project.name}</h3>
+                            <div className='flex mbs' style={{ alignItems: 'center' }}>
+                                <SVG name={project.id} w={30} />
+                                <h2 className='mlm'>{project.name}</h2>
+                            </div>
+
                             <p>{project.desc}</p>
                         </div>
                     </motion.div>
