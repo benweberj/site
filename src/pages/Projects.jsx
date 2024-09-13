@@ -22,7 +22,7 @@ export default function Projects(props) {
     return (
         <Main fromright>
             {projects.map((project, i) => (
-                <Link to={`/site/projects/${project.id}`}>
+                <Link to={`/projects/${project.id}`}>
                     <motion.div
                         className='mbm'
                         key={project.id}

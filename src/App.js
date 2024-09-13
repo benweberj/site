@@ -1,5 +1,5 @@
 import { useState, useEffect } from'react'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { HashRouter, Routes, Route, Link } from 'react-router-dom'
 import { ThemeProvider as StyledThemeProvider } from 'styled-components'
 import { AnimatePresence } from "framer-motion"
 
@@ -33,34 +33,34 @@ export default function App() {
       <StyledThemeProvider theme={theme}>
          <GlobalStyles theme={theme} />
          {/* TODO: use hash router so you can navigate to nested pages via the URL search bar */}
-            <Router>
+            <HashRouter hashType='noslash'>
                <div id='modal-root' />
                <div id='aux-root' />
                <Header ready={ready} />
                <AnimatePresence>
                   <Routes>
-                     <Route path='/site' exact element={<Home />} />
+                     <Route path='/' exact element={<Home />} />
                      
                      {/* need to pass theme to sketches/Class components since they cant use my useTheme() hook */}
-                     <Route path='site/projects' exact element={<Projects />} />
-                     <Route path='site/projects/wordlesolver' exact element={<WordleSolver />} />
-                     <Route path='site/projects/particlemesh' exact element={<ParticleMesh theme={theme} />} />
-                     <Route path='site/projects/gameoflife' exact element={<GameOfLife />} />
-                     <Route path='site/projects/polymesh' exact element={<PolyMesh theme={theme} />} />
-                     <Route path='site/projects/pixelsnakes' exact element={<PixelSnakes theme={theme} />} />
-                     <Route path='site/projects/lightning' exact element={<Lightning theme={theme} />} />
+                     <Route path='/projects' exact element={<Projects />} />
+                     <Route path='/projects/wordlesolver' exact element={<WordleSolver />} />
+                     <Route path='/projects/particlemesh' exact element={<ParticleMesh theme={theme} />} />
+                     <Route path='/projects/gameoflife' exact element={<GameOfLife />} />
+                     <Route path='/projects/polymesh' exact element={<PolyMesh theme={theme} />} />
+                     <Route path='/projects/pixelsnakes' exact element={<PixelSnakes theme={theme} />} />
+                     <Route path='/projects/lightning' exact element={<Lightning theme={theme} />} />
                      
-                     <Route path='site/work' exact element={<Work />} />
+                     <Route path='/work' exact element={<Work />} />
                      {/* <Route path='/work/omic/os' exact element={<OS />} />
                      <Route path='/work/omic/c19' exact element={<C19 />} />
                      <Route path='/work/omic/info' exact element={<Info />} /> */}
                      
-                     <Route path='site/resume' exact element={<Resume />} />
+                     <Route path='/resume' exact element={<Resume />} />
                      
                      <Route path='*' element={<UnknownPage />} />
                   </Routes>
                </AnimatePresence>
-         </Router>
+         </HashRouter>
       </StyledThemeProvider>
    )
 }
@@ -73,10 +73,10 @@ const UnknownPage = () => {
          <p>Go here instead?</p>
          <div className='flex sep-sm'>
             {[
-               { link: 'site/', name: 'Home' },
-               { link: 'site/projects', name: 'Projects' },
-               { link: 'site/work', name: 'Work Experience'},
-               { link: 'site/resume', name: 'Resume'},
+               { link: '/', name: 'Home' },
+               { link: '/projects', name: 'Projects' },
+               { link: '/work', name: 'Work Experience'},
+               { link: '/resume', name: 'Resume'},
             ].map(page => (
                <Link to={page.link}>
                   <button className='chip'>{page.name}</button>

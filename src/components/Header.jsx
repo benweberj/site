@@ -65,20 +65,26 @@ const _Header = styled.header`
 
 export default function Header(props) {
     // when the user navigates to home, keep the last path in the header for a few seconds
-    const [persistPathTimer, setPersistPathTimer] = useState(null)
+    // const [persistPathTimer, setPersistPathTimer] = useState(null)
     const [transparentHeader, setTransparentHeader] = useState(false)
     
     const location = useLocation()
     const { ready } = props
 
-    const onHome = location.pathname === '/site'
-    const lastPath = localStorage.getItem('lastPath')
+    const paths = location.pathname.split('/').filter(x => x.length>0)
+    const onHome = location.pathname === '/'
+    // const lastPath = localStorage.getItem('lastPath')
 
-    function getWholePath(path) {
-        // let lastPath = localStorage.getItem('lastPath')
-        let referencedLocation = (persistPathTimer && lastPath) ? lastPath : location.pathname
-        let spot = referencedLocation.indexOf(path)
-        return referencedLocation.substring(0, spot + path.length)
+    // function getWholePath(path) {
+    //     // let lastPath = localStorage.getItem('lastPath')
+    //     let referencedLocation = (persistPathTimer && lastPath) ? lastPath : location.pathname
+    //     let spot = referencedLocation.indexOf(path)
+    //     return referencedLocation.substring(0, spot + path.length)
+    // }
+
+    function getWholePath(name) {
+        let idx = location.pathname.indexOf(name)
+        return location.pathname.substring(0, idx + name.length)
     }
 
     function shouldHeaderBeTransparent(pathname) {
@@ -90,39 +96,50 @@ export default function Header(props) {
     }
 
     useEffect(() => {
-        const savePath = () => localStorage.setItem('lastPath', location.pathname)
-        window.addEventListener('beforeunload', savePath);
+        // const savePath = () => localStorage.setItem('lastPath', location.pathname)
+        // window.addEventListener('beforeunload', savePath);
 
-        if (location.pathname !== '/site') {
-            localStorage.setItem('lastPath', location.pathname)
-            clearTimeout(persistPathTimer)
-            setPersistPathTimer(false)
-        } else if (lastPath && lastPath !== '/site') {
-            clearTimeout(persistPathTimer)
-            setPersistPathTimer(setTimeout(() =>  {
-                setPersistPathTimer(false)
-                savePath()
-            }, 15000))
-        }
+        // if (location.pathname !== '/') {
+        //     localStorage.setItem('lastPath', location.pathname)
+        //     clearTimeout(persistPathTimer)
+        //     setPersistPathTimer(false)
+        // } else if (lastPath && lastPath !== '/') {
+        //     clearTimeout(persistPathTimer)
+        //     setPersistPathTimer(setTimeout(() =>  {
+        //         setPersistPathTimer(false)
+        //         savePath()
+        //     }, 15000))
+        // }
 
         setTransparentHeader(shouldHeaderBeTransparent(location.pathname))
         
-        return () => window.removeEventListener('beforeunload', savePath)
+        // return () => window.removeEventListener('beforeunload', savePath)
     }, [location])
 
-    let paths = (persistPathTimer ? localStorage.getItem('lastPath') : location.pathname).split('/').filter(path => path.length>=1)
-    paths.shift()
+    // let paths = (persistPathTimer ? localStorage.getItem('lastPath') : location.pathname).split('/').filter(path => path.length>=1)
+    // paths.shift()
 
     return (
         <_Header id='header' className='pm split' $ready={ready} $shadow={!transparentHeader}>
-            <div className={`breadcrumbs ${persistPathTimer && 'breathe'}`}>
-                <div className='wrapper'>
-                {(!onHome || persistPathTimer) && <li><Link to='/site'>home</Link></li> }
-                {paths.map((path, i) => (
-                    <li key={`path-${i}`}>/<Link to={getWholePath(path)}>{path}</Link></li>
-                    ))}
+            {onHome ?
+                <li className='hidden'>home</li>
+            :
+                <div className='breadcrumbs'>
+                    <div className='wrapper'>
+                        <li><Link to='/'>home</Link></li>
+                        {paths.map(path => <li>/<Link to={getWholePath(path)}>{path}</Link></li>)}
+                    </div>
                 </div>
-            </div>
+            }
+
+            {/* <div className={`breadcrumbs ${persistPathTimer && 'breathe'}`}>
+                    <div className='wrapper'>
+                        {(!onHome || persistPathTimer) && <li><Link to='/'>home</Link></li> }
+                        {paths.map((path, i) => (
+                            <li key={`path-${i}`}>/<Link to={getWholePath(path)}>{path}</Link></li>
+                        ))}
+                    </div>
+            </div> */}
             
             <ThemeToggler />
         </_Header>

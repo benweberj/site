@@ -94,7 +94,7 @@ export default function Socials({ ready }) {
         }
 
         if (id==='resume') {
-            navigate('/site/resume')
+            navigate('/resume')
         }
     }
 

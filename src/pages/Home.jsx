@@ -37,7 +37,7 @@ export default function Home(props) {
                 <Socials ready={ready} />
                 
                 <Links className='flex sep-md' style={{ marginTop: '5vh' }}>
-                    <Link to='/site/work'>
+                    <Link to='/work'>
                         <motion.div
                             className='center sep-sm work'
                             initial={{ transform: 'translateX(60px)', opacity: 0 }}
@@ -49,7 +49,7 @@ export default function Home(props) {
                         </motion.div>
                     </Link>
 
-                    <Link to='/site/projects'>
+                    <Link to='/projects'>
                         <motion.div
                             className='center sep-sm projects'
                             initial={{ transform: 'translateX(-40px)', opacity: 0 }}
