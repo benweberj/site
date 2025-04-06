@@ -37,11 +37,16 @@ export default class PolyMesh extends React.Component {
             }
     
             // Create snakes
+            snakes = []
             for (let i = 0; i < 10; i++) {
                 let x = p.floor(p.random(window.innerWidth));
                 let y = p.floor(p.random(window.innerHeight));
                 snakes.push(new Snake(p, gridSize, x, y));
             }
+        }
+
+        p.windowResized = () => {
+            p.setup()
         }
     
         p.draw = () => {

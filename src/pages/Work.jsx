@@ -180,14 +180,14 @@ export default function Work(props) {
 
     // styles the jobs array into JSX cards
     // tech=omic for now
-    function makeCards(tech=false) {
+    function makeCards() {
         const dark = theme.mode === 'dark'
-        const cards = jobs.filter(j => j.tech==tech).map((j, i) => (
+        const cards = jobs.map((j, i) => (
             <motion.div
                 initial={{ transform: 'translateX(-100px)' }}
                 animate={{ transform: 'translateX(0px)', transition: { delay: i*0.1, type: 'spring' } }}
                 key={j.title}
-                className={`card ${viewing && (viewing !== j.id) && j.id != 'omic' ? 'faded' : ''} ${viewing===j.id && 'selected'} ${j.tech && 'pl'} ${j.id==='omic' && dark && 'glow-border'}`}
+                className={`card pl contain ${viewing && (viewing !== j.id)  ? 'faded' : ''} ${viewing===j.id && 'selected'} ${j.id==='omic' && dark && 'glow-border'}`}
                 style={{ position: 'relative', transition: 'opacity 0.25s ease' }}
             >
                 {console.log(j.id)}
@@ -238,19 +238,7 @@ export default function Work(props) {
     return (
         <Main fromleft>
             <_Work>
-                <motion.h2 className='mbs'
-                    initial={{ transform: 'translateY(50px)' }}
-                    animate={{ transform: 'translateY(0px)', transition: { type: 'spring' } }}
-                >Tech Work
-                </motion.h2>
-                {makeCards(true)}
-
-                <motion.h2 className='mbs mtl'
-                    initial={{ transform: 'translateY(50px)' }}
-                    animate={{ transform: 'translateY(0px)', transition: { type: 'spring' } }}
-                >Other Jobs
-                </motion.h2>
-                {makeCards(false)}
+                {makeCards()}
             </_Work>
         </Main>
     )

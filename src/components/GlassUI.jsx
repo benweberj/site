@@ -293,9 +293,9 @@ function Chat(props) {
             <h4 className='mbm mts'>Very Real Messages</h4>
             {chats.map((chat, i) => (
                 <motion.div
-                    initial={{ transform: 'translateX(30px)', opacity: 0 }}
-                    animate={{ transform: 'translateX(0px)', opacity: 1 }}
-                    transition={{ delay: (i+5)*0.15, type: 'spring' }}
+                    initial={{ transform: 'scaleY(0)', opacity: 0, transformOrigin: 'top' }}
+                    animate={{ transform: 'scaleY(1)', opacity: 1 }}
+                    transition={{ delay: (i+5)*0.15, type: 'ease' }}
                     className={`chat-msg ${expanded[i] && 'selected'}`}
                     onClick={() => toggleExpand(i)}
                 >

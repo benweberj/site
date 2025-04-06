@@ -31,6 +31,10 @@ export default class PolyMesh extends React.Component {
             p.frameRate(100)
         }
 
+        p.windowResized = () => {
+            p.setup()
+        }
+
         p.draw = () => {
             p.background(220)
             const mouseVector = p.createVector(p.mouseX, p.mouseY)

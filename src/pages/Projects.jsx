@@ -1,15 +1,21 @@
+import { useState } from'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import styled from 'styled-components'
+import AnimateHeight from 'react-animate-height'
 
 import { Main, SVG } from '../components/index'
 
 const projects = [
-    { name: 'Wordle Solver', id: 'wordlesolver', desc: 'A solver for the game Wordle that generates all possible words based on the current state of your Wordle game.' },
-    { name: 'Particle Mesh', id: 'particlemesh', desc: 'A particle system where particles are attracted to each other and to your cursor.' },
-    { name: 'Game of Life', id: 'gameoflife', desc: 'A clone of John Conway\'s zero-player game, Game of Life.' },
-    { name: 'Lightning', id: 'lightning', desc: 'Rain, thunder, and lightning simulation.' },
-    { name: 'Poly Mesh', id: 'polymesh', desc: 'A dynamic mesh of connected polygons with fluid vertices.' },
-    { name: 'Pixel Snakes', id: 'pixelsnakes', desc: 'A grid of pixels with snakes moving throughout the cells.' },
+    { name: 'Wordle Solver',    id: 'wordlesolver', desc: 'A solver for the New York Times Wordle.',                    tags: ['react'], code: '' },
+    { name: 'Particle Mesh',    id: 'particlemesh', desc: 'A customizable and interactive particle system.',            tags: ['react', 'p5', 'physics'],   code: '' },
+    { name: 'Game of Life',     id: 'gameoflife',   desc: 'John Conway\'s zero-player game.',                           tags: ['react', 'automata'],        code: '' },
+    { name: 'FireMap',          id: 'firemap',      desc: 'An interactive map to view US wildfires in real-time.',      tags: ['react', 'google maps'],     code: '',       link: 'https://benweberj.github.io/firemap/',  },
+    { name: 'Lightning',        id: 'lightning',    desc: 'Rain, thunder, and lightning simulation.',                   tags: ['p5', 'recursion'],          code: '' },
+    { name: 'Poly Mesh',        id: 'polymesh',     desc: 'A dynamic mesh of connected polygons with fluid vertices.',  tags: ['p5', 'physics'],            code: '' },
+    { name: 'Pixel Snakes',     id: 'pixelsnakes',  desc: 'Snakes moving through a pixel grid.',                        tags: [ 'p5'],                      code: '' },
+
+    { name: 'Birthday Card',    id: 'birthdaycard', desc: 'A digital birthday card for my Dad. (Made in 1 hour, don\'t judge)',                        tags: ['react', 'p5'],              code: '',       link: 'https://thebirthdayboy.vercel.app/',},
     // !TODO: project idea -- audio/singing  -> MIDI
     // might need to use python or somethin
     // record audio of you humming a song or something. Doesnt even need to be a song, it should work with any words
@@ -19,30 +25,76 @@ const projects = [
 ]
 
 export default function Projects(props) {
+    const [hovered, setHovered] = useState(null)
+
     return (
         <Main fromright>
-            {projects.map((project, i) => (
-                <Link to={`/projects/${project.id}`}>
-                    <motion.div
-                        className='mbm'
-                        key={project.id}
-                        initial={{ opacity: 0, transform: 'translateX(50px)' }}
-                        animate={{ opacity: 1, transform: 'translateX(0px)', transition: { type: 'spring', delay: i * 0.1 } }}
-                    >
-                        <div className='card'>
-                            <div className='flex mbs' style={{ alignItems: 'center' }}>
-                                <SVG name={project.id} w={30} />
-                                <h2 className='mlm'>{project.name}</h2>
-                            </div>
+            <Gallery>
+                {projects.map((project, i) => (
+                    // <Link to={project.link || `/projects/${project.id}`}>
+                        <motion.div
+                            key={project.id}
+                            initial={{ opacity: 0, transform: 'rotateX(100deg)' }}
+                            animate={{ opacity: 1, transform: 'rotateX(0deg)', transition: { type: 'spring', delay: i * 0.05 } }}
+                        >
+                            <div className='card entry center col rel contain' debug onMouseEnter={() => setHovered(project.id)} onMouseLeave={() => setHovered(null)}>
+                                <div className='center'>
+                                    <SVG name={project.id} w={50} />
+                                    
+                                    <div className='flex col pll'>
+                                        <h2 className='mbs'>{project.name}</h2>
+                                        <div className='flex'>
+                                            {project.tags.map((tag, i) => <button className='chip-sm inactive mrs'>{tag}</button>)}
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <p>{project.desc}</p>
-                        </div>
-                    </motion.div>
-                </Link>
-            ))}
+                                {/* <AnimateHeight height={(hovered === project.id) ? 'auto' : 0}>
+                                    <p className='pym'>{project.desc}</p>
+                                </AnimateHeight> */}
+                                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: (hovered === project.id) ? 'auto' : 0, opacity: (hovered===project.id) ? 1 : 0 }}>
+                                    <p className='pym'>{project.desc}</p>
+                                </motion.div>
+
+
+
+                                <div className='flex center sep-sm' style={{ position: 'absolute', bottom: 10, right: 10 }}>
+                                
+                                    <motion.div initial={{ y: 0, opacity: 0 }}  animate={{ opacity: (hovered===project.id) ? 1 : 0, y: (hovered===project.id) ? 0 : 50 }} transition={{ delay: .1, duration: .25 }}>
+                                        <Link to={project.code}>
+                                            <button className='chip inverse'>Code</button>
+                                        </Link>
+                                    </motion.div>
+
+                                    <motion.div initial={{ y: 0, opacity: 0 }}  animate={{ opacity: (hovered===project.id) ? 1 : 0, y: (hovered===project.id) ? 0 : 50 }} transition={{ delay: .25, duration: .25 }}>
+                                        <Link to={project.link || `/projects/${project.id}`}>
+                                            <button className='chip inverse'>View</button>
+                                        </Link>
+                                    </motion.div>
+                                </div>
+                               
+
+                                {/* <p>{project.desc}</p> */}
+                            </div>
+                        </motion.div>
+                    // </Link>
+                ))}
+            </Gallery>
         </Main>
     )
 }
+
+const Gallery = styled.div`
+    // border: 1px solid red;
+    display: grid;
+    grid-gap: 2vmin;
+    grid-template-columns: repeat(auto-fit,  minmax(min(400px, 100%), 1fr));
+
+    .entry {
+        min-height: 15rem;
+        // border: 1px dashed white;
+    }
+`
 
 // import { useState } from 'react'
 // import { ReactP5Wrapper } from 'react-p5-wrapper'

@@ -36,7 +36,7 @@ export default function Home(props) {
             <div className='col center'>
                 <Socials ready={ready} />
                 
-                <Links className='flex sep-md' style={{ marginTop: '5vh' }}>
+                <Links className='flex sep-lg' style={{ marginTop: '5vh' }}>
                     <Link to='/work'>
                         <motion.div
                             className='center sep-sm work'

@@ -35,7 +35,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     html, body, #root {
-        height: 100%;
+        height: 100dvh;
         overflow-x: hidden;
     }
 
@@ -49,6 +49,9 @@ export const GlobalStyles = createGlobalStyle`
         }
     }
 
+    #sketch-container {
+        overflow: hidden;
+    }
 
     body {
         background: ${props => props.theme.bg};
@@ -141,10 +144,31 @@ export const GlobalStyles = createGlobalStyle`
         font-size: 0.9rem;
         color: ${props => props.theme.complement};
         border-radius: 99px;
-        transition: background 0.25s ease, color 0.25s ease;
+        transition: background 0.25s ease, color 0.25s ease, opacity 0.25s ease;
+
+        &.inverse {
+            background: ${props => props.theme.complement};
+            color: ${props => props.theme.base};
+            opacity: 0.75;
+
+            &:hover {
+                opacity: 1;
+                // background: ${props => props.theme.complement}88;
+                // color: ${props => props.theme.base}88;
+            }
+        }
 
         &.red {
-            background: coral;
+            background: ${props => props.theme.red2}88;
+            color: white;
+
+            &:hover {
+                background: red;
+            }
+        }
+
+        &.green {
+            background: ${props => props.theme.green}88;
             color: white;
 
             &:hover {
@@ -165,7 +189,7 @@ export const GlobalStyles = createGlobalStyle`
             color: ${props => props.theme.complement};
         }
 
-        &:hover {
+        &:hover:not(.inactive) {
             background: ${props => props.theme.complement};
             color: ${props => props.theme.base};
 
@@ -175,8 +199,22 @@ export const GlobalStyles = createGlobalStyle`
         }
 
         &.chip {
-            padding: 5px 15px;
+            padding: 5px 15px 6px 15px;
         }
+
+        &.chip-sm {
+            padding: 2px 10px 3px 10px;
+            font-size: 0.8rem;
+        }
+
+        
+    }
+
+    input, textarea {
+        border-radius: ${props => props.theme.corners}rem;
+        padding: ${props => `${props.theme.spacing.sm}rem ${props.theme.spacing.md}rem`};
+        background: ${props => props.theme.complement}88;
+        color: ${props => props.theme.base};
     }
 
     .card {
@@ -472,6 +510,8 @@ export const GlobalStyles = createGlobalStyle`
     .locked { opacity: 0.5; user-select: none; pointer-events: none }
     .faded { opacity: 0.5 }
 
+    .block { display: block; }
+
     .flex { display: flex; flex-wrap: wrap; }
     .col { display: flex; flex-direction: column; flex-wrap: wrap; }
     :not(p):not(h1):not(h2):not(h3):not(h4).center { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
@@ -616,7 +656,8 @@ const baseTheme = {
     codeFont: 'monospace',
     accent: '#669f7a',
     green: '#55bb99',
-    red: '#ff9090'
+    red: '#ff9090',
+    red2: '#BF4A4A'
 }
 
 export const lightTheme = {

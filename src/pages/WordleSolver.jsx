@@ -1,12 +1,20 @@
 import { useState, useEffect, useRef } from 'react'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
+import emailjs from '@emailjs/browser'
+import { Toaster, toast } from 'react-hot-toast'
 
 import { useTheme } from '../extras/ThemeContext'
 import { WORD_LIST, commonWords } from './words'
+import { Modal } from '../components/index'
+
 
 const colors = { right: '#618654', wrong: '#616466', maybe: '#9f9151', empty: '#222' }
 const modes = Object.keys(colors)
+
+emailjs.init({ publicKey: process.env.REACT_APP_EMAILJS_PUBLIC_KEY })
+
+const GlobalStyle = createGlobalStyle`html { overflow: hidden; }`
 
 export default function WordleSolver(props) {
     const [possibleWords, setPossibleWords] = useState([])
@@ -14,11 +22,89 @@ export default function WordleSolver(props) {
     const [viewingAllWords, setViewingAllWords] = useState(false)
     const goingBack = useRef(false)
     const [theme, _] = useTheme()
+    const [showingFeedback, setShowingFeedback] = useState(false)
+    const userToggled = useRef(null)
+    const [showingFeedbackModal, setShowingFeedbackModal] = useState(false)
+
+    function getGuesses() {
+        let words = []
+        for (let i = 0; i < 25; i+=5) {
+            let word = ''
+            for (let j = 0; j < 5; j++) {
+                let char = getInput(i+j).value || '.'
+                word += char
+            }
+            words.push(word)
+        }
+        return words
+    }
+
+    
+    const $ = (q) => document.querySelector(q)
+
+    async function sendFeedbackEmail() {
+        const correctWord = $('#correctword')
+        const numGuesses = $('#numguesses')
+        const feedback = $('#feedback')
+        const guessList = getGuesses()
+        const validGuesses = guessList.filter(g => g.split('').filter(x => x != '.').length === 5).length
+
+        let body= ''
+
+        const cw = correctWord.value || ''
+
+        if (showingFeedbackModal === 'good') {
+            const ng = numGuesses.value || null
+            body = `Somebody used the solver for ${cw ? `"${cw}"` : '-----'} and got it in ${ng || '-'} guesses.`
+        } else if (showingFeedbackModal === 'bad') {
+            alert('')
+            const fb = feedback.value
+            body = fb ? `Somebody had an issue using the solver${cw && ` for the word "${cw}"`}. They said: "${fb}". END.` : 'They had nothing to say'
+        }
+        body += '\n' + validGuesses > 0 ? ` Their guesses were: [${guessList.toString()}].` : ' They had no complete guesses on the board.'
+        
+
+        try {
+            await emailjs.send(
+              process.env.REACT_APP_EMAIL_SERVICE_ID,
+              process.env.REACT_APP_EMAIL_TEMPLATE_ID,
+              {
+                message: body,
+              },
+              process.env.REACT_APP_PUBLIC_KEY,
+            );
+            console.log('Email sent successfully. Body:', body);
+            toast('Thanks for the feedback!', {
+                duration: 1500,
+                style: { fontSize: '0.8rem' }
+            })
+        } catch (error) {
+            console.error('Failed to send email:', error, 'Body:', body);
+        }
+
+        setShowingFeedback(false)
+    
+
+    }
     
     const wordLimit = 10
     const limitedWords = possibleWords.slice(0, wordLimit)
 
     useEffect(() => {
+        if (showingFeedback) userToggled.current = true
+    }, [showingFeedback])
+
+    function showFeedback() {
+        if (!userToggled.current) {
+            // user hasnt interacted with feedback btn, so auto show it
+            setShowingFeedback(true)
+        }
+    }
+
+    useEffect(() => {
+
+        setTimeout(showFeedback, 15000)
+
         clearBoard()
     }, [])
 
@@ -215,6 +301,33 @@ export default function WordleSolver(props) {
 
     return (
         <WordleContainer theme={theme}>
+            <GlobalStyle />
+
+            <Toaster />
+
+            <Modal ready={showingFeedbackModal} onClose={() =>  setShowingFeedbackModal(null) }>
+            
+                {showingFeedbackModal === 'good' ? <>
+                    <h2 className='mbm'>Awesome!</h2>
+                    <p>What was the final word?</p>
+                    <input id='correctword' className='mbs' />
+
+                    <p>In how many guesses?</p>
+                    <input id='numguesses' type='number' className='' />
+
+                </> : showingFeedbackModal==='bad' ? <>
+                    <h2 className='mbm'>Dang.</h2>
+                    <p>What was the correct word?</p>
+                    <p className='faded'>(blank if unknown)</p>
+                    <input id='correctword' className='mbs' />
+
+                    <p>What went wrong?</p>
+                    <textarea id='feedback' className='' />
+                </> : <></>
+                }
+                <button className='green block mtl' onClick={() => { sendFeedbackEmail(); setShowingFeedbackModal(false) }}>Send</button>
+            </Modal>
+
             <div className='col center'>
                 <div className='board'>
                     {[...Array(25).keys()].map(i => (
@@ -231,6 +344,7 @@ export default function WordleSolver(props) {
                                 onFocus={e => handleFocus(e, i)}
                                 onBlur={e => handleBlur(e, i)}
                                 onChange={e => handlePress(e, i)}
+                                style={{ padding: '0', }}
                             />
 
                             <div className='toggler'>
@@ -278,9 +392,52 @@ export default function WordleSolver(props) {
                     {viewingAllWords && <button className='word-option view-all chip' onClick={() => setViewingAllWords(false)}>See less</button>}
                 </motion.div>
             </div>
+
+            <motion.div initial={{ opacity: 0, top: 100 }} animate={{ opacity: showingFeedback ? 1 : 0, top: showingFeedback ? 0 : 100 }}>
+                <Feedback>
+                    <div className='prm'>
+                        <h4>Did it work?</h4>
+                        <p>Share the results with me</p>
+                    </div>
+                    <div className='sep-sm'>
+                        <button className='chip green' onClick={() => setShowingFeedbackModal('good')}>Yes</button>
+                        <button className='chip red' onClick={() => setShowingFeedbackModal('bad')}>No</button>
+                    </div>
+
+                    <button style={{ position: 'absolute', top: 5, right: 5 }} className='chip-sm' onClick={() => setShowingFeedback(false)}>X</button>
+                </Feedback>
+            </motion.div>
+
+            <motion.button animate={{ y: !showingFeedback ? 0 : 100, opacity: !showingFeedback ? 1 : 0 }} onClick={() => setShowingFeedback(true)} style={{ position: 'absolute', bottom: 20, right: 20 }}>feedback</motion.button>
         </WordleContainer>
     )
 }
+
+const Feedback = styled.div`
+    position: absolute;
+    background: blue;
+    padding: 2rem;
+    bottom: 5vmin;
+    right: 5vmin;
+    background: ${props => props.theme.base}88;
+    border-radius: ${props => props.theme.corners}rem;
+    // width: 80vmin;
+    // padding: 5vmin;
+    // padding-top: 0;
+
+    display: flex;
+    align-items: center;
+    // justify-content: space-between;
+
+    p {
+        // line-height: 2;
+    }
+
+    button {
+        display: inline-block;
+    }
+
+`
 
 const WordleContainer = styled.main`
     padding: 5vh;

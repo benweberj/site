@@ -68,6 +68,8 @@ export default class ParticleMesh extends React.Component {
         let i = 0
         let cooldownTime = 150 // ms cooldown after spawning particle
         let timer = null
+        let grid = {} // Spatial hash grid
+        let cellSize = options.pullDistance // Size of each grid cell
         
         let longPressTimer = null
     
@@ -89,12 +91,44 @@ export default class ParticleMesh extends React.Component {
         }
     
         const getMouse = () => p.createVector(p.mouseX, p.mouseY)
+
+        function updateGrid(particles) {
+            grid = {}
+            particles.forEach((particle, i) => {
+                const cellX = Math.floor(particle.pos.x / cellSize)
+                const cellY = Math.floor(particle.pos.y / cellSize)
+                const key = `${cellX},${cellY}`
+                if (!grid[key]) grid[key] = []
+                grid[key].push(i)
+            })
+        }
+
+        function getNeighbors(particle) {
+            const cellX = Math.floor(particle.pos.x / cellSize)
+            const cellY = Math.floor(particle.pos.y / cellSize)
+            const neighbors = []
+
+            // Check surrounding cells
+            for (let x = -1; x <= 1; x++) {
+                for (let y = -1; y <= 1; y++) {
+                    const key = `${cellX + x},${cellY + y}`
+                    if (grid[key]) {
+                        neighbors.push(...grid[key])
+                    }
+                }
+            }
+            return neighbors
+        }
     
         p.setup = () => {
             const d = dim(parentId)
             canvas = p.createCanvas(d.width, d.height);
             canvas.position(0,0)
             i++
+
+            for (let i = 0; i < 100; i++) {
+                this.particles.push(new Particle(p, p.createVector(Math.random() * window.innerWidth, Math.random() * window.innerHeight)))
+            }
         }
 
         p.keyPressed = () => {
@@ -189,11 +223,13 @@ export default class ParticleMesh extends React.Component {
                 p.resizeCanvas(d.width, d.height)
             }
 
-            particles.forEach(particle => {
+            // Update spatial hash grid
+            updateGrid(particles)
+
+            particles.forEach((particle, i) => {
                 if (particle.dead) return
                 particle.move(options.keepInbounds, options.bounceDecay, options.goingHome);
 
-                
                 if (options.drawParticles) particle.draw(options.color);
 
                 if (options.debug && options.nodesAttract) {
@@ -208,7 +244,6 @@ export default class ParticleMesh extends React.Component {
                     p.line(particle.pos.x, particle.pos.y, particle.home.x, particle.home.y)
                 }
 
-    
                 if (options.attractedToMouse) {
                     let mouseDist = particle.pos.copy().dist(mouse);
                     
@@ -233,26 +268,30 @@ export default class ParticleMesh extends React.Component {
                     }
                 }
                 
-                particles.forEach(other => {
-                    if (particle !== other) {
-    
+                // Get only nearby particles using spatial hash grid
+                const neighbors = getNeighbors(particle)
+                neighbors.forEach(j => {
+                    if (i !== j) {
+                        const other = particles[j]
                         let dist = particle.pos.dist(other.pos);
     
-                        //draw connections
-                        if (options.drawConnections && dist < options.pullDistance) {
-                            let str = Math.pow(15 / dist, 2);
-                            str = p.constrain(str, 0, 2);
-                            p.stroke(options.color);
-                            p.strokeWeight(str);
-                            p.line(particle.pos.x, particle.pos.y, other.pos.x, other.pos.y);
-                        }
+                        if (dist < options.pullDistance) {
+                            //draw connections
+                            if (options.drawConnections) {
+                                let str = Math.pow(15 / dist, 2);
+                                str = p.constrain(str, 0, 2);
+                                p.stroke(options.color);
+                                p.strokeWeight(str);
+                                p.line(particle.pos.x, particle.pos.y, other.pos.x, other.pos.y);
+                            }
 
-                        // attract to each other
-                        if (options.nodesAttract && dist < options.pullDistance) {
-                            let dir = other.pos.copy().sub(particle.pos)
-                            const strength = 1/Math.pow(dist, 2)
-                            dir.mult(p.constrain(options.attractionForce * strength, 0, options.attractionForce*.001))
-                            particle.applyForce(dir)
+                            // attract to each other
+                            if (options.nodesAttract) {
+                                let dir = other.pos.copy().sub(particle.pos)
+                                const strength = 1/Math.pow(dist, 2)
+                                dir.mult(p.constrain(options.attractionForce * strength, 0, options.attractionForce*.001))
+                                particle.applyForce(dir)
+                            }
                         }
                     }
                 });
