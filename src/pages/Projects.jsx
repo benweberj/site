@@ -27,6 +27,7 @@ const projects = [
 export default function Projects(props) {
     const [hovered, setHovered] = useState(null)
 
+
     return (
         <Main fromright>
             <Gallery>
@@ -67,9 +68,16 @@ export default function Projects(props) {
                                     </motion.div>
 
                                     <motion.div initial={{ y: 0, opacity: 0 }}  animate={{ opacity: (hovered===project.id) ? 1 : 0, y: (hovered===project.id) ? 0 : 50 }} transition={{ delay: .25, duration: .25 }}>
-                                        <Link to={project.link || `/projects/${project.id}`}>
-                                            <button className='chip inverse'>View</button>
-                                        </Link>
+                                        {project.link ? (
+                                            <a href={project.link} target='_blank' rel='noreferrer noopener'>
+                                                <button className='chip inverse'>View</button>
+                                            </a>
+                                        ) : (
+                                            <Link to={`/projects/${project.id}`}>
+                                                <button className='chip inverse'>View</button>
+                                            </Link>
+                                        )}
+                                        
                                     </motion.div>
                                 </div>
                                

@@ -126,9 +126,9 @@ export default class ParticleMesh extends React.Component {
             canvas.position(0,0)
             i++
 
-            for (let i = 0; i < 100; i++) {
-                this.particles.push(new Particle(p, p.createVector(Math.random() * window.innerWidth, Math.random() * window.innerHeight)))
-            }
+            // for (let i = 0; i < 100; i++) {
+            //     this.particles.push(new Particle(p, p.createVector(Math.random() * window.innerWidth, Math.random() * window.innerHeight)))
+            // }
         }
 
         p.keyPressed = () => {
