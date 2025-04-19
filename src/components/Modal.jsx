@@ -51,7 +51,7 @@ const _Modal = styled.section`
 `
 
 export default function Modal(props) {
-    const { ready, onClose, children, full, glass, overflow } = props
+    const { ready, onClose, children, full, glass, overflow, center } = props
 
     const [theme,_] = useTheme()
     const [isBrowser, setIsBrowser] = useState(false)
@@ -72,7 +72,7 @@ export default function Modal(props) {
         return ReactDOM.createPortal(
             <_Modal ready={ready} theme={theme} onClick={handleBackgroundClick} glass={glass} overflow={overflow}>
                 <motion.div
-                    className={full ? 'full' : 'content card'}
+                    className={(full ? 'full' : 'content card') + (center ? ' center' : '')}
                     initial={{ scale: 0 }}
                     animate={{ scale: ready ? 1 : 0 }}
                     transition={{ type: 'spring', duration: 0.5 }}

@@ -6,12 +6,12 @@ import { ThemeToggler } from './index'
 
 
 const _Header = styled.header`
-    transition: opacity 1s ease;
     opacity: ${props => props.$ready ? 1 : 0};
 
-    box-shadow: ${props => (props.$ready && props.$shadow) ? `10px 10px 20px ${props.theme.bg}, 10px 10px 30px ${props.theme.bg}` : 'none'};
+    box-shadow: ${props => (props.$ready && !props.$transparent) ? `10px 10px 20px ${props.theme.bg}, 10px 10px 30px ${props.theme.bg}` : 'none'};
+    background: ${props => props.$transparent ? 'transparent' : props.theme.bg};
     z-index: 2;
-    transition: box-shadow 0.25s ease;
+    transition: box-shadow 0.25s ease, opacity .25s ease, background 0.25s ease;
 
     .breadcrumbs {
         .wrapper {
@@ -120,7 +120,7 @@ export default function Header(props) {
     // paths.shift()
 
     return (
-        <_Header id='header' className='pm split' $ready={ready} $shadow={!transparentHeader}>
+        <_Header id='header' className='pm split' $ready={ready} $transparent={transparentHeader}>
             {onHome ?
                 <li className='hidden'>home</li>
             :

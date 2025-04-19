@@ -13,6 +13,7 @@ import Clicker from './Clicker'
 import SVG from './SVG'
 import GlassUI from './GlassUI'
 import Test from './Test'
+import Animated from './Animated'
 
 export {
     ThemeToggler,
@@ -29,5 +30,6 @@ export {
     Clicker,
     SVG,
     GlassUI,
-    Test
+    Test,
+    Animated
 }

@@ -4,9 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import emailjs from '@emailjs/browser'
 import { Toaster, toast } from 'react-hot-toast'
 
-import { useTheme } from '../extras/ThemeContext'
+import { useTheme } from '../../extras/ThemeContext'
 import { WORD_LIST, commonWords } from './words'
-import { Modal } from '../components/index'
+import { Modal } from '../../components/index'
 
 
 const colors = { right: '#618654', wrong: '#616466', maybe: '#9f9151', empty: '#222' }

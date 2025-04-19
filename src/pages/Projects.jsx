@@ -8,10 +8,10 @@ import { Main, SVG } from '../components/index'
 
 const projects = [
     { name: 'Wordle Solver',    id: 'wordlesolver', desc: 'A solver for the New York Times Wordle.',                    tags: ['react'], code: '' },
-    { name: 'Particle Mesh',    id: 'particlemesh', desc: 'A customizable and interactive particle system.',            tags: ['react', 'p5', 'physics'],   code: '' },
+    { name: 'Particle Mesh',    id: 'particlemesh', desc: 'A customizable and interactive particle system.',            tags: ['react', 'p5', 'physics'],   code: 'https://github.com/benweberj/particle_mesh' },
     { name: 'Game of Life',     id: 'gameoflife',   desc: 'John Conway\'s zero-player game.',                           tags: ['react', 'automata'],        code: '' },
-    { name: 'FireMap',          id: 'firemap',      desc: 'An interactive map to view US wildfires in real-time.',      tags: ['react', 'google maps'],     code: '',       link: 'https://benweberj.github.io/firemap/',  },
-    { name: 'Lightning',        id: 'lightning',    desc: 'Rain, thunder, and lightning simulation.',                   tags: ['p5', 'recursion'],          code: '' },
+    { name: 'FireMap',          id: 'firemap',      desc: 'An interactive map to view US wildfires in real-time.',      tags: ['react', 'google maps'],     code: 'https://github.com/benweberj/firemap',       link: 'https://benweberj.github.io/firemap/',  },
+    { name: 'Lightning',        id: 'lightning',    desc: 'Rain, thunder, and lightning simulation.',                   tags: ['p5', 'recursion'],          code: 'https://github.com/benweberj/lightning' },
     { name: 'Poly Mesh',        id: 'polymesh',     desc: 'A dynamic mesh of connected polygons with fluid vertices.',  tags: ['p5', 'physics'],            code: '' },
     { name: 'Pixel Snakes',     id: 'pixelsnakes',  desc: 'Snakes moving through a pixel grid.',                        tags: [ 'p5'],                      code: '' },
 
@@ -61,11 +61,11 @@ export default function Projects(props) {
 
                                 <div className='flex center sep-sm' style={{ position: 'absolute', bottom: 10, right: 10 }}>
                                 
-                                    <motion.div initial={{ y: 0, opacity: 0 }}  animate={{ opacity: (hovered===project.id) ? 1 : 0, y: (hovered===project.id) ? 0 : 50 }} transition={{ delay: .1, duration: .25 }}>
+                                    {project.code && <motion.div initial={{ y: 0, opacity: 0 }}  animate={{ opacity: (hovered===project.id) ? 1 : 0, y: (hovered===project.id) ? 0 : 50 }} transition={{ delay: .1, duration: .25 }}>
                                         <Link to={project.code}>
                                             <button className='chip inverse'>Code</button>
                                         </Link>
-                                    </motion.div>
+                                    </motion.div>}
 
                                     <motion.div initial={{ y: 0, opacity: 0 }}  animate={{ opacity: (hovered===project.id) ? 1 : 0, y: (hovered===project.id) ? 0 : 50 }} transition={{ delay: .25, duration: .25 }}>
                                         {project.link ? (

@@ -1,0 +1,29 @@
+// .fromleft, .fromright, .fromtop, .frombottom {
+//     transition: all var(--trans-slow);
+//     opacity: 0;
+// }
+
+// .fromleft { transition: all 0.5s ease; transform: translateX(-100px)}
+// .fromright { transform: translateX(100px)}
+// .fromtop { transform: translateY(-100px)}
+// .frombottom { transform: translateY(100px)}
+// .visible { transition: all var(--trans-slow); transform: none; opacity: 1 }
+
+
+
+.animated {
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    opacity: var(--opacity, 1);
+}
+.fromleft, .fromright { transform: translateX(var(--translate-x, 0)) }
+.fromtop, .frombottom { transform: translateY(var(--translate-y, 0)) }
+.flip { transform: rotateX(var(--rotate, 0)) }
+.blur { filter: blur(var(--blur, 0)) }
+// .blur { filter: blur(var(--blur, 0)) }
+
+
+// .visible {
+//     --translate-x: 0 !important;
+//     --translate-y: 0 !important;
+//     --opacity: 1 !important;
+// }

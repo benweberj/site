@@ -11,13 +11,17 @@ import Projects from './pages/Projects'
 import Work from './pages/Work'
 import Resume from './pages/Resume'
 // import { C19, OS, Info } from './pages/OmicSites'
+import Designs from './pages/Designs'
+import AirpactFire from './pages/designs/AirpactFire'
+import Avole from './pages/designs/Avole'
 
-import WordleSolver from './pages/WordleSolver'
-import ParticleMesh from './pages/ParticleMesh'
-import GameOfLife from './pages/GameOfLife'
-import PolyMesh from './pages/PolyMesh'
-import PixelSnakes from './pages/PixelSnakes'
-import Lightning from './pages/Lightning'
+
+import WordleSolver from './pages/projects/WordleSolver'
+import ParticleMesh from './pages/projects/ParticleMesh'
+import GameOfLife from './pages/projects/GameOfLife'
+import PolyMesh from './pages/projects/PolyMesh'
+import PixelSnakes from './pages/projects/PixelSnakes'
+import Lightning from './pages/projects/Lightning'
 
 import { Header, Main, Modal } from './components/index'
 
@@ -49,6 +53,11 @@ export default function App() {
                      <Route path='/projects/polymesh' exact element={<PolyMesh theme={theme} />} />
                      <Route path='/projects/pixelsnakes' exact element={<PixelSnakes theme={theme} />} />
                      <Route path='/projects/lightning' exact element={<Lightning theme={theme} />} />
+
+                     <Route path='/designs' exact element={<Designs />} />
+                     <Route path='/designs/airpactfire' exact element={<AirpactFire />} />
+                     <Route path='/designs/avole' exact element={<Avole />} />
+
                      
                      <Route path='/work' exact element={<Work />} />
                      {/* <Route path='/work/omic/os' exact element={<OS />} />

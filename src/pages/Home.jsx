@@ -36,30 +36,40 @@ export default function Home(props) {
             <div className='col center'>
                 <Socials ready={ready} />
                 
-                <Links className='flex sep-lg' style={{ marginTop: '5vh' }}>
+                <Links className='flex sep-md' style={{ marginTop: '8vh' }}>
                     <Link to='/work'>
                         <motion.div
-                            className='center sep-sm work'
-                            initial={{ transform: 'translateX(60px)', opacity: 0 }}
-                            animate={{ transform: 'translateX(10px)', opacity: 0.7 }}
-                            transition={{ type: 'spring', duration: 0.5, delay: 0.7 }}
+                            className='card quiet'
+                            initial={{ y: 40, opacity: 0 }}
+                            animate={{ y: 0, opacity: .7 }}
+                            transition={{ type: 'spring', duration: 0.25, delay: 0.4 }}
                         >
-                            <img src={process.env.PUBLIC_URL + '/img/back.png'} />
                             <h4>Work</h4>
+                        </motion.div>
+                    </Link>
+
+                    <Link to='/designs'>
+                        <motion.div
+                            className='card quiet'
+                            initial={{ y: 40, opacity: 0 }}
+                            animate={{ y: 0, opacity: .7 }}
+                            transition={{ type: 'spring', duration: 0.25, delay: 0.5 }}
+                        >
+                            <h4>Designs</h4>
                         </motion.div>
                     </Link>
 
                     <Link to='/projects'>
                         <motion.div
-                            className='center sep-sm projects'
-                            initial={{ transform: 'translateX(-40px)', opacity: 0 }}
-                            animate={{ transform: 'translateX(10px)', opacity: 0.7 }}
-                            transition={{ type: 'spring', duration: 0.5, delay: 0.8 }}
+                            className='card quiet'
+                            initial={{ y: 40, opacity: 0 }}
+                            animate={{ y: 0, opacity: .7 }}
+                            transition={{ type: 'spring', duration: 0.25, delay: 0.6 }}
                         >
                             <h4>Projects</h4>
-                            <img src={process.env.PUBLIC_URL + '/img/back.png'} />
                         </motion.div>
                     </Link>
+
                 </Links>
             </div>
         </Main>
@@ -69,30 +79,14 @@ export default function Home(props) {
 
 const Links = styled.div`
     div {
-
-        img {
-            width: 15px;
-            transition: all 0.25s ease;
-            filter: ${props => props.theme.mode==='dark' && 'invert()'};
-        }
-
-        &.projects {
-            img {
-                transform: rotate(180deg);
-            }
-        }
-
+        padding: .75rem 1.5rem;
+        border-radius: 0.5rem;
         &:hover {
             opacity: 1 !important;
-            img {
-                transform: translateX(-10px);
-            }
+        }
 
-            &.projects {
-                img {
-                    transform: translateX(10px) rotate(180deg);
-                }
-            }
+        h4 {
+            font-weight: 400;
         }
     }
 `

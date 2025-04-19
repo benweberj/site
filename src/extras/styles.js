@@ -14,7 +14,7 @@ export const GlobalStyles = createGlobalStyle`
         color: ${props => props.theme.complement+'bb'};
 
         scrollbar-width: thin;
-        scrollbar-color: ${props => props.theme.accent} #0000;
+        scrollbar-color: ${props => props.theme.accent + ' ' + props.theme.bg};
     }
 
     *::-webkit-scrollbar {
@@ -136,6 +136,40 @@ export const GlobalStyles = createGlobalStyle`
         }
     }
 
+    img.inv {
+        transition: all 0.25s ease;
+        filter: invert(${props => props.theme.mode=='dark' ? 1 : 0});
+    }
+
+
+    a.link {
+        // color: red;
+        position: relative;
+        transition: all 0.25s ease;
+        color: ${props => props.theme.complement}55;
+
+        &:after {
+            content: '';
+            transition: all 0.25s ease;
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50%;
+            height: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px;
+            background: ${props => props.theme.accent};
+        }
+
+        &:hover {
+            color: ${props => props.theme.accent};
+            &:after { 
+                width: 100%;
+            }
+        }
+    }
+
     
     button {
         padding: ${props => `${props.theme.spacing.sm}rem ${props.theme.spacing.md}rem`};
@@ -221,6 +255,14 @@ export const GlobalStyles = createGlobalStyle`
         padding: ${props => props.theme.spacing.md}rem;
         background: ${props => props.theme.complement}11;
         border-radius: ${props => props.theme.corners}rem;
+        transition: all 0.25s ease;
+
+        &.quiet {
+            background: transparent;
+            &:hover {
+                background: ${props => props.theme.complement}11
+            }
+        }
 
         &.lg {
             padding: ${props => props.theme.spacing.lg}rem;
@@ -388,23 +430,39 @@ export const GlobalStyles = createGlobalStyle`
         }
     }
 
+    // .sep, .sep-sm, .sep-md, .sep-lg {
+    //     > *:first-child {
+    //         margin-left: 0;
+    //     }
+    //     > *:last-child {
+    //         margin-right: 0;
+    //     }
+    // }
+
 
     .sep-sm, .sep {
-        > * {
-            margin: ${props => props.theme.spacing.sm/2}rem;
-        }
+        display: flex;
+        gap: ${props => props.theme.spacing.sm}rem;
+        // > * {
+        //     margin: ${props => props.theme.spacing.sm/2}rem;
+        // }
     }
 
     .sep-md {
-        > * {
-            margin: ${props => props.theme.spacing.md/2}rem;
-        }
+        display: flex;
+        gap: ${props => props.theme.spacing.md}rem;
+        // > * {
+        //     margin: ${props => props.theme.spacing.md/2}rem;
+        // }
     }
 
     .sep-lg {
-        > * {
-            margin: ${props => props.theme.spacing.lg/2}rem;
-        }
+        display: flex;
+        gap: ${props => props.theme.spacing.lg}rem;
+        
+        // > * {
+        //     margin: ${props => props.theme.spacing.lg/2}rem;
+        // }
     }
 
     .hsep-sm {
@@ -527,6 +585,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     .align-center {
+        display: flex;
         align-items: center;
     }
 

@@ -18,7 +18,7 @@ export default function Parallax(props) {
       tiltReverse={true}
       perspective={props.perspective || 500}
     //   {...shineProps}
-      // {...props}
+      {...props}
     >
       {props.children}
     </Tilt>
